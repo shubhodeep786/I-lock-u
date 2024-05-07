@@ -12,17 +12,17 @@ const UploadDocumentsScreen: React.FC = () => {
       <View style={styles.actionsContainer}>
         <ActionCard
           title="Upload Documents"
-          icon={require('../assets/upload_icon.png')} // Replace with actual path
+          icon={{ uri: 'https://example.com/profile-picture.jpg' }} // Replace with actual path
           onPress={() => console.log('Upload Documents')}
         />
         <ActionCard
           title="Scan Document"
-          icon={require('../assets/scan_icon.png')} // Replace with actual path
+          icon={{ uri: 'https://example.com/profile-picture.jpg' }} // Replace with actual path
           onPress={() => console.log('Scan Document')}
         />
         <ActionCard
           title="Import"
-          icon={require('../assets/import_icon.png')} // Replace with actual path
+          icon={{ uri: 'https://example.com/profile-picture.jpg' }} // Replace with actual path
           onPress={() => console.log('Import')}
         />
       </View>

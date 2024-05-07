@@ -11,7 +11,10 @@ import PinConfirmationScreen from './screens/PinConfirmationScreen';
 import SetBiometricScreen from './screens/SetBiometricScreen';
 import UserHomeScreen from './screens/UserHomeScreen';
 import UnlockScreen from './screens/UnlockScreen';
-
+import UploadDocumentsScreen from './screens/UploadDocumentsScreen';
+import DocumentsScreen from './screens/DocumentsScreen';
+import SharedDocumentsScreen from './screens/SharedDocumentsScreen';
+import ProfileScreen from './screens/ProfileScreen';
 const Stack = createNativeStackNavigator();
 
 const App: React.FC = () => {
@@ -26,9 +29,13 @@ const App: React.FC = () => {
         <Stack.Screen name="SetPin" component={SetPinScreen} />
         <Stack.Screen name="ConfirmPin" component={PinConfirmationScreen} />
         <Stack.Screen name="SetBiometric" component={SetBiometricScreen} />
+        <Stack.Screen name="UserHome" component={UserHomeScreen} />
         <Stack.Screen name="UnlockScreen" component={UnlockScreen} />
         <Stack.Screen name="PinConfirmation" component={PinConfirmationScreen} />
-        <Stack.Screen name="UserHome" component={UserHomeScreen} />
+        <Stack.Screen name="UploadDocuments" component={UploadDocumentsScreen} />
+        <Stack.Screen name="Documents" component={DocumentsScreen} />
+        <Stack.Screen name="SharedDocuments" component={SharedDocumentsScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

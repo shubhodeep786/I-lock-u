@@ -1,7 +1,7 @@
 // DocumentsScreen.tsx
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import SearchBar from './components/SearchBar';
+import SearchBar from './Components/SearchBar';
 import DocumentCategoryCard from './components/DocumentCategoryCard';
 
 const DocumentsScreen: React.FC = () => {

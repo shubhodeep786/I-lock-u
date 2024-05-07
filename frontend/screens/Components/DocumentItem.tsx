@@ -12,7 +12,7 @@ type DocumentItemProps = {
 const DocumentItem: React.FC<DocumentItemProps> = ({ title, uploadDate, sharedTo, expiryDate }) => {
     return (
         <View style={styles.card}>
-            <Image source={require('../assets/document_icon.png')} style={styles.image} />
+            <Image source={{ uri: 'https://example.com/profile-picture.jpg' }} style={styles.image} />
             <View style={styles.info}>
                 <Text style={styles.title}>{title}</Text>
                 <Text style={styles.date}>{uploadDate}</Text>

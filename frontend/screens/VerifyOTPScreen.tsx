@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-
+import { SetPinScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+import { useNavigation } from '@react-navigation/native';
 const VerifyOTPScreen: React.FC = () => {
   const [OTP, setOTP] = useState<Array<string>>(['', '', '', '']);
   const [counter, setCounter] = useState(30);
+  const navigation = useNavigation<SetPinScreenProps['navigation']>();
+  const handleNextPress = () => {
+    navigation.navigate('SetPin');
+  };
 
   useEffect(() => {
     const timer = counter > 0 ? setInterval(() => {
@@ -45,18 +50,6 @@ const VerifyOTPScreen: React.FC = () => {
     }
   };
 
-  const renderKey = (key: string) => {
-    return (
-      <TouchableOpacity
-        key={key}
-        style={styles.keyStyle}
-        onPress={() => handleKeyPress(key)}
-      >
-        <Text style={styles.keyText}>{key}</Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Verify Mobile Number</Text>
@@ -66,7 +59,7 @@ const VerifyOTPScreen: React.FC = () => {
       </View>
       <Text style={styles.timer}>Resend in {counter.toString().padStart(2, '0')} sec</Text>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Next</Text>
+        <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

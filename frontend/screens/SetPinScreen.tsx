@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-
+import { SetBiometricScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+import { useNavigation } from '@react-navigation/native';
 const SetPinScreen: React.FC = () => {
   const [pin, setPin] = useState<string[]>(['', '', '', '']);
+  const navigation = useNavigation<SetBiometricScreenProps['navigation']>();
+  const handleNextPress = () => {
+    navigation.navigate('SetBiometric');
+  };
 
   const handleInput = (value: string) => {
     const nextIndex = pin.findIndex((p) => p === '');
@@ -46,7 +51,7 @@ const SetPinScreen: React.FC = () => {
       <Text style={styles.subheader}>Set a 4 digit pin</Text>
       <View style={styles.pinContainer}>{renderPinCircles()}</View>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Next</Text>
+        <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

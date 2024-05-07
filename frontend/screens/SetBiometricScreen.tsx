@@ -1,9 +1,14 @@
 // SetBiometricScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-
+import { CreateProfileScreenNavigationProp } from '../types/navigationTypes'; // Adjust the path as necessary
+import { useNavigation } from '@react-navigation/native';
 
 const SetBiometricScreen: React.FC = () => {
+  const navigation = useNavigation<CreateProfileScreenNavigationProp['navigation']>();
+  const handleNextPress = () => {
+    navigation.navigate('CreateProfile');
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Set Biometric</Text>
@@ -11,8 +16,8 @@ const SetBiometricScreen: React.FC = () => {
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Apply</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('Skip')}>
-        <Text style={styles.skipText}>Skip</Text>
+      <TouchableOpacity onPress={handleNextPress}>
+        <Text style={styles.skipText} >Skip</Text>
       </TouchableOpacity>
     </View>
   );

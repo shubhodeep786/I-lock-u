@@ -13,7 +13,11 @@ export type RootStackParamList = {
   OTPVerification: undefined;
   SetPin: undefined;
   SetBiometric: undefined;
-
+  CreateProfile: undefined;
+  UploadDocuments: undefined;
+  Documents: undefined;
+  SharedDocuments: undefined;
+  Profile: undefined;
 };
 
 // Utilize NativeStackScreenProps for uniformity
@@ -28,3 +32,8 @@ export type OTPVerificationScreenProps = NativeStackScreenProps<RootStackParamLi
 export type SetPinScreenProps = NativeStackScreenProps<RootStackParamList, 'SetPin'>;
 export type SetBiometricScreenProps = NativeStackScreenProps<RootStackParamList, 'SetBiometric'>;
 export type HomeScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Home'>;
+export type CreateProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'CreateProfile'>;
+export type UploadDocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'UploadDocuments'>;
+export type DocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Documents'>;
+export type SharedDocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'SharedDocuments'>;
+export type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;

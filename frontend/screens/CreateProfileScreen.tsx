@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
-
+import { UserHomeScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+import { useNavigation } from '@react-navigation/native';
 const CreateProfileScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [aadharNumber, setAadharNumber] = useState('');
   const [panNumber, setPanNumber] = useState('');
-
+  const navigation = useNavigation<UserHomeScreenProps['navigation']>();
+  const handleNextPress = () => {
+    navigation.navigate('UserHome');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -49,7 +53,7 @@ const CreateProfileScreen: React.FC = () => {
           onChangeText={setPanNumber}
         />
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Next</Text>
+          <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

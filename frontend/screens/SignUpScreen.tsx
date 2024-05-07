@@ -3,9 +3,9 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, SafeAreaView } fro
 import { OTPVerificationScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
 import { useNavigation } from '@react-navigation/native';
 const SignUpScreen: React.FC = () => {
-  const navigation = useNavigation<OTPVerificationScreenProps>();
+  const navigation = useNavigation<OTPVerificationScreenProps['navigation']>();
   const handleNextPress = () => {
-    navigation.navigate('OTPVerification'); // Correct navigation command
+    navigation.navigate('OTPVerification');
   };
 
   return (
@@ -19,8 +19,8 @@ const SignUpScreen: React.FC = () => {
         placeholderTextColor="#aaa"
       />
       <Text style={styles.smallText}>By Entering OTP, I agree with the Terms and condition</Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Next</Text>
+      <TouchableOpacity style={styles.button}  onPress={handleNextPress}>
+        <Text style={styles.buttonText}  >Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
