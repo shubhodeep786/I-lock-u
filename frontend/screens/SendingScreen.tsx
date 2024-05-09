@@ -34,7 +34,7 @@ const documentsData = [
   },
 ];
 
-const SelectDocumentsPage = () => {
+const SendingScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDocuments, setSelectedDocuments] = useState({});
   const [selectAll, setSelectAll] = useState(false);
@@ -227,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectDocumentsPage;
+export default SendingScreen;

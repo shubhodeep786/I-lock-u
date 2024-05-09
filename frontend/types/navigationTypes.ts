@@ -18,6 +18,10 @@ export type RootStackParamList = {
   Documents: undefined;
   SharedDocuments: undefined;
   Profile: undefined;
+  FullScreenScanner: undefined;
+  SelectDocuments: undefined;
+  QRCode: undefined;
+  SendingScreen: undefined;
 };
 
 // Utilize NativeStackScreenProps for uniformity
@@ -37,3 +41,7 @@ export type UploadDocumentsScreenNavigationProp = NativeStackScreenProps<RootSta
 export type DocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Documents'>;
 export type SharedDocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'SharedDocuments'>;
 export type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+export type FullScreenScannerNavigationProp = NativeStackScreenProps<RootStackParamList, 'FullScreenScanner'>;
+export type SelectDocumentsPageNavigationProp = NativeStackScreenProps<RootStackParamList, 'SelectDocuments'>;
+export type QRCodePageNavigationProp = NativeStackScreenProps<RootStackParamList, 'QRCode'>;
+export type SendingScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'SendingScreen'>;
