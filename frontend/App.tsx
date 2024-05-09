@@ -15,6 +15,7 @@ import UploadDocumentsScreen from './screens/UploadDocumentsScreen';
 import DocumentsScreen from './screens/DocumentsScreen';
 import SharedDocumentsScreen from './screens/SharedDocumentsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import NotificationsScreen from './screens/NotificationsScreen';
 const Stack = createNativeStackNavigator();
 
 const App: React.FC = () => {
@@ -35,6 +36,8 @@ const App: React.FC = () => {
         <Stack.Screen name="UploadDocuments" component={UploadDocumentsScreen} />
         <Stack.Screen name="Documents" component={DocumentsScreen} />
         <Stack.Screen name="SharedDocuments" component={SharedDocumentsScreen} />
+        <Stack.Screen name="Notification" component={NotificationsScreen} />
+        <Stack.Screen name="UploadDocument" component={UploadDocumentsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>

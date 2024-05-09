@@ -37,6 +37,8 @@ const UserHomeScreen = () => {
   const navigation2 = useNavigation<DocumentsScreenNavigationProp['navigation']>();
   const navigation3 = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
   const navigation4 = useNavigation<ProfileScreenNavigationProp['navigation']>();
+  // const navigation5 = useNavigation<['navigation']>();
+  // const navigation6 = useNavigation<UnlockScreenNavigationProp['navigation']>();
 
   const handleNextPress1 = () => {
     navigation1.navigate('UserHome');
@@ -49,6 +51,13 @@ const UserHomeScreen = () => {
   };
   const handleNextPress4 = () => {
     navigation4.navigate('Profile');
+  };
+
+  const handleNextPress5 = () => {
+    navigation5.navigate('SharedDocuments');
+  };
+  const handleNextPress6 = () => {
+    navigation6.navigate('UnlockScreen');
   };
   return (
     <View style={styles.container}>
@@ -80,17 +89,17 @@ const UserHomeScreen = () => {
 
       {/* Actions */}
       <View style={styles.actionsContainer}>
-        <TouchableOpacity style={[styles.actionButton, styles.shareDocumentButton]}>
+        <TouchableOpacity style={[styles.actionButton, styles.shareDocumentButton]} onClick={}>
           <DocumentIcon />
           <Text style={styles.actionButtonText}>Share Documents</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionButton, styles.receiveDocumentButton]}>
+        <TouchableOpacity style={[styles.actionButton, styles.receiveDocumentButton]} onClick={}>
           <UploadIcon />
           <Text style={styles.actionButtonText}>Receive Document</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.recentDocumentsTitle}>Recent Documents</Text>
+      <Text style={styles.recentDocumentsTitle} onClick={}>Recent Documents</Text>
 
       {/* Recent Documents */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
