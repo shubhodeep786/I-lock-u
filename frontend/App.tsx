@@ -20,6 +20,8 @@ import FullScreenScanner from './screens/FullScreenScanner';//Full Screen Scanne
 import SelectDocumentsPage from './screens/SelectDocumentsPage';//Select Documents to share
 import QRCodePage from './screens/QRCodePage';//Code with QR Code Modal
 import SendingScreen from './screens/SendingScreen';//Sending Screen
+import IdentityDocumentsScreen from './screens/IdentityDocumentsScreen';//Identity Documents Screen
+import ReceiveDocumentsPage from './screens/ReceiveDocumentsPage'
 const Stack = createNativeStackNavigator();
 
 const App: React.FC = () => {
@@ -47,6 +49,8 @@ const App: React.FC = () => {
         <Stack.Screen name="SelectDocuments" component={SelectDocumentsPage} />
         <Stack.Screen name="QRCode" component={QRCodePage} />
         <Stack.Screen name="SendingScreen" component={SendingScreen} />
+        <Stack.Screen name="IdentityDocuments" component={IdentityDocumentsScreen} />
+        <Stack.Screen name="ReciveDocument" component={ReceiveDocumentsPage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

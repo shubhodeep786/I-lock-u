@@ -9,7 +9,6 @@ export type RootStackParamList = {
   UnlockScreen: undefined;
   PinConfirmation: undefined;
   UserHome: undefined;
-  UserHomeScreen: undefined;
   OTPVerification: undefined;
   SetPin: undefined;
   SetBiometric: undefined;
@@ -22,8 +21,10 @@ export type RootStackParamList = {
   SelectDocuments: undefined;
   QRCode: undefined;
   SendingScreen: undefined;
+  ReciveDocument:undefined;
+  
 };
-
+export type ReciveDocumentProps =  NativeStackScreenProps<RootStackParamList, 'ReciveDocument'>;
 // Utilize NativeStackScreenProps for uniformity
 export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -31,7 +32,7 @@ export type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'Sign
 export type ConfirmPinScreenProps = NativeStackScreenProps<RootStackParamList, 'ConfirmPin'>;
 export type UnlockScreenProps = NativeStackScreenProps<RootStackParamList, 'UnlockScreen'>;
 export type PinConfirmationScreenProps = NativeStackScreenProps<RootStackParamList, 'PinConfirmation'>;
-export type UserHomeScreenProps = NativeStackScreenProps<RootStackParamList, 'UserHomeScreen'>;
+export type UserHomeScreenProps = NativeStackScreenProps<RootStackParamList, 'UserHome'>;
 export type OTPVerificationScreenProps = NativeStackScreenProps<RootStackParamList, 'OTPVerification'>;
 export type SetPinScreenProps = NativeStackScreenProps<RootStackParamList, 'SetPin'>;
 export type SetBiometricScreenProps = NativeStackScreenProps<RootStackParamList, 'SetBiometric'>;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native';
-import { RNCamera } from 'react-native-camera';
+// import { RNCamera } from 'react-native-camera';
 
 const FullScreenScanner = () => {
   const [scanned, setScanned] = useState(false);
@@ -8,11 +8,11 @@ const FullScreenScanner = () => {
   const [isModalVisible, setModalVisible] = useState(true);
   const [ekid, setEKID] = useState('');
 
-  const handleBarCodeScanned = ({ data }) => {
-    setScanned(true);
-    setQRCode(data);
-    alert(`QR Code scanned: ${data}`);
-  };
+  // const handleBarCodeScanned = ({ data }) => {
+  //   setScanned(true);
+  //   setQRCode(data);
+  //   alert(`QR Code scanned: ${data}`);
+  // };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -28,13 +28,13 @@ const FullScreenScanner = () => {
     <Modal visible={isModalVisible} animationType="slide" transparent={false}>
       <View style={styles.container}>
         <Text style={styles.title}>Scan the QR Code</Text>
-        <View style={styles.qrScannerContainer}>
+        {/* <View style={styles.qrScannerContainer}>
           <RNCamera
             style={StyleSheet.absoluteFillObject}
             onBarCodeRead={scanned ? undefined : handleBarCodeScanned}
             captureAudio={false}
           />
-        </View>
+        </View> */}
         <View style={styles.bottomSheet}>
           <Text style={styles.label}>Share Documents Using</Text>
           <TextInput

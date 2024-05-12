@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { UserHomeScreenProps } from '../types/navigationTypes'; // Make sure the path matches where you have defined your types
+import { UserHomeScreenProps } from '../types/navigationTypes';
 
 const PinConfirmationScreen: React.FC = () => {
   const [pin, setPin] = useState<string[]>(Array(6).fill(''));
@@ -22,14 +22,14 @@ const PinConfirmationScreen: React.FC = () => {
       const newPin = [...pin];
       newPin[lastIndex] = '';
       setPin(newPin);
-    } else if (pin[pin.length - 1] !== '') { // if all digits are filled
+    } else if (pin[pin.length - 1] !== '') { 
       const newPin = [...pin];
       newPin[pin.length - 1] = '';
       setPin(newPin);
     }
   };
   const handleNext = () => {
-    navigation.navigate('UserHomeScreen'); // Make sure 'UnlockScreen' is defined in your RootStackParamList
+    navigation.navigate('Home'); 
   };
 
 
@@ -42,7 +42,7 @@ const PinConfirmationScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Pin Confirmation</Text>
-      <Text style={styles.subheader}>Enter 6 digit pin</Text>
+      <Text style={styles.subheader}>Enter 7 digit pin</Text>
       <View style={styles.pinContainer}>{renderPinCircles()}</View>
       <Text style={styles.forgotPin}>Forgot Pin</Text>
       <TouchableOpacity style={styles.button} onPress={handleNext}>
@@ -51,7 +51,7 @@ const PinConfirmationScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-// when the users clicks on the next button, they should be routed to the <Stack.Screen name="UserHome" component={UserHomeScreen} />
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

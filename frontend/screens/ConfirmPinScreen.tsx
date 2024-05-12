@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-
+import { UserHomeScreenProps } from '../types/navigationTypes';
+import { useNavigation } from '@react-navigation/native';
 const ConfirmPinScreen: React.FC = () => {
   const [pin, setPin] = useState<string[]>(['', '', '', '']);
-
-  const handleInput = (value: string) => {
-    const nextIndex = pin.findIndex((p) => p === '');
-    if (nextIndex !== -1) {
-      const newPin = [...pin];
-      newPin[nextIndex] = value;
-      setPin(newPin);
-    }
-  };
-
-  const handleDelete = () => {
-    const lastIndex = pin.findIndex((p) => p === '') - 1;
-    if (lastIndex >= 0) {
-      const newPin = [...pin];
-      newPin[lastIndex] = '';
-      setPin(newPin);
-    }
+  const navigation = useNavigation<UserHomeScreenProps['navigation']>();
+  const handleNextPress = () => {
+    navigation.navigate('UserHome');
   };
 
   const renderPinCircles = () => {
@@ -28,29 +15,14 @@ const ConfirmPinScreen: React.FC = () => {
     ));
   };
 
-  const renderKey = (key: string) => {
-    return (
-      <TouchableOpacity
-        key={key}
-        style={styles.keyStyle}
-        onPress={() => key === '⌫' ? handleDelete() : handleInput(key)}
-      >
-        <Text style={styles.keyText}>{key}</Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Confirm Pin</Text>
       <Text style={styles.subheader}>Enter the pin you set</Text>
       <View style={styles.pinContainer}>{renderPinCircles()}</View>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Next</Text>
+        <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
       </TouchableOpacity>
-      <View style={styles.keypad}>
-        {['1', '2', '3', '4', '5', '6', '7', '8', '9', '⌫', '0'].map(renderKey)}
-      </View>
     </SafeAreaView>
   );
 };

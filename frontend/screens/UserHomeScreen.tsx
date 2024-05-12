@@ -1,64 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import {UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, RootStackParamList} from '../types/navigationTypes';
+import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, RootStackParamList } from '../types/navigationTypes';
 import { useNavigation } from '@react-navigation/native';
 const HomeIcon = () => (
-  
   <Image
-    source={{ uri: 'https://example.com/profile-picture.jpg' }}
+    source={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/627/580/original/vector-home-icon-symbol-sign.jpg' }}
     style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const DocumentIcon = () => (
   <Image
-    source={{ uri: 'https://example.com/profile-picture.jpg' }}
+    source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2991/2991112.png' }}
     style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const UploadIcon = () => (
   <Image
-    source={{ uri: 'https://example.com/profile-picture.jpg' }}
+    source={{ uri: 'https://th.bing.com/th/id/OIP.qM4gofQvkDbbrGeMt1sP-wHaD9?rs=1&pid=ImgDetMain' }}
     style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const ProfileIcon = () => (
   <Image
-    source={{ uri: 'https://example.com/profile-picture.jpg' }}
+    source={{ uri: 'https://th.bing.com/th/id/OIP.NMPXaBadVF3pdRmwJyqmZQHaHa?w=180&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7' }}
     style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const UserHomeScreen = () => {
-  const navigation1 = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
-  const navigation2 = useNavigation<DocumentsScreenNavigationProp['navigation']>();
-  const navigation3 = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
-  const navigation4 = useNavigation<ProfileScreenNavigationProp['navigation']>();
-  // const navigation5 = useNavigation<['navigation']>();
-  // const navigation6 = useNavigation<UnlockScreenNavigationProp['navigation']>();
-
-  const handleNextPress1 = () => {
+  const [showQR, setShowQR] = useState(false);
+  const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
+  const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
+  const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+  const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+  const SharedDocumentScreenNavigationzz = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+  const navigation = useNavigation();
+  
+  const UserHomeButtonClicked = () => {
     navigation1.navigate('UserHome');
   };
-  const handleNextPress2 = () => {
-    navigation2.navigate('Documents');
+  const DocumentsButtonClicked = () => {
+    DocumentScreenNavigation.navigate('Documents');
   };
-  const handleNextPress3 = () => {
-    navigation3.navigate('UploadDocuments');
+  const UploadDocumentButtonClicked = () => {
+    uploadDocumentScreenNavigation.navigate('UploadDocuments');
   };
-  const handleNextPress4 = () => {
-    navigation4.navigate('Profile');
+  const ProfileButtonClicked = () => {
+    ProfileScreenNavigation.navigate('Profile');
   };
 
-  const handleNextPress5 = () => {
-    navigation5.navigate('SharedDocuments');
+  const ShareDocumentButtonClicked = () => {
+    SharedDocumentScreenNavigation.navigate('SharedDocuments');
   };
   const handleNextPress6 = () => {
     navigation6.navigate('UnlockScreen');
   };
+  const handleReceiveDocumentClick = () => {
+    setShowQR(true);
+  };
+
+  const handleClose = () => {
+    setShowQR(false);
+  };
+
+  const [showShare, setShowShare] = useState(false);
+
+  const handleShareDocumentsClick = () => {
+    setShowShare(true); // Shows the card for sharing documents
+  };
+
+  const handleCloseShare = () => {
+    setShowShare(false); // Hides the card
+  };
+
+  if (showShare) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handleCloseShare} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.cardContainer}>
+          <Text style={styles.cardTitle}>Share Your Documents</Text>
+          {/* Additional content and actions for sharing documents */}
+        </View>
+      </View>
+    );
+  }
+  if (showQR) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>✕</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.qrContainer}>
+          <Image source={{ uri: "https://th.bing.com/th/id/OIP.mK2kr2iSUYk_Fvz9c5LDhQHaHa" }} style={styles.qrImage} />
+          <Text style={styles.qrTitle}>Scan the QR Code to Receive File</Text>
+          <Image></Image>
+        </View>
+      </View>
+    );
+  }
+
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -70,12 +120,10 @@ const UserHomeScreen = () => {
       </View>
 
       <View style={styles.userProfileContainer}>
-        {/* Profile picture */}
         <Image
           source={{ uri: 'https://example.com/profile-picture.jpg' }}
           style={styles.profilePicture}
         />
-        {/* User info */}
         <View style={styles.userInfoContainer}>
           <Text style={styles.userName}>Kundan Chouhan</Text>
           <Text style={styles.userDetails}>UID: 0fd4a6d123456789abcdefgh</Text>
@@ -86,22 +134,23 @@ const UserHomeScreen = () => {
           <Text style={styles.userDetails}>PAN: GH55H562</Text>
         </View>
       </View>
-
-      {/* Actions */}
-      <View style={styles.actionsContainer}>
-        <TouchableOpacity style={[styles.actionButton, styles.shareDocumentButton]} onClick={}>
-          <DocumentIcon />
-          <Text style={styles.actionButtonText}>Share Documents</Text>
+      <View style={styles.documentActionsContainer}>
+        <TouchableOpacity
+          style={styles.documentActionButton}
+          onPress={handleShareDocumentsClick}
+        >
+          <Text style={styles.documentActionButtonText}>Share Documents</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionButton, styles.receiveDocumentButton]} onClick={}>
-          <UploadIcon />
-          <Text style={styles.actionButtonText}>Receive Document</Text>
+        <TouchableOpacity
+          style={styles.documentActionButton}
+          onPress={handleReceiveDocumentClick}
+        >
+          <Text style={styles.documentActionButtonText}>Receive Document</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.recentDocumentsTitle} onClick={}>Recent Documents</Text>
+      <Text style={styles.recentDocumentsTitle} >Recent Documents</Text>
 
-      {/* Recent Documents */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.recentDocumentCard}>
           <Image source={{ uri: 'https://example.com/aadhar-card.jpg' }} style={styles.documentImage} />
@@ -136,21 +185,21 @@ const UserHomeScreen = () => {
 
       {/* Bottom Navbar */}
       <View style={styles.bottomNavbar} >
-        <TouchableOpacity style={styles.navbarButton} onPress={handleNextPress1}>
+        <TouchableOpacity style={styles.navbarButton} >
           <HomeIcon />
           <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={handleNextPress2}>
+        <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <DocumentIcon />
           <Text style={styles.navbarButtonText}>Documents</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={handleNextPress3}>
+        <TouchableOpacity style={styles.navbarButton} >
           <UploadIcon />
-          <Text style={styles.navbarButtonText}>Upload</Text>
+          <Text style={styles.navbarButtonText} onPress={UploadDocumentButtonClicked}>Upload</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={handleNextPress4}>
+        <TouchableOpacity style={styles.navbarButton}>
           <ProfileIcon />
-          <Text style={styles.navbarButtonText}>Profile</Text>
+          <Text style={styles.navbarButtonText} onPress={ProfileButtonClicked}>Profile</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -158,6 +207,78 @@ const UserHomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    zIndex: 1,
+  },
+  closeButtonText: {
+    fontSize: 20,
+    color: 'black',
+  },
+  qrContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  qrImage: {
+    width: 200,
+    height: 200,
+  },
+  qrTitle: {
+    marginTop: 20,
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 16,
+  },
+  documentActionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 20,
+    borderRadius: 8,
+    backgroundColor: '#4B0082',
+    elevation: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    marginHorizontal: 10,
+    marginTop: 10,
+  },
+  documentActionButton: {
+    backgroundColor: '#0000CD',
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 150,
+    height: 80,
+  },
+  documentActionButtonText: {
+    color: '#FFFFFF',
+    marginTop: 5,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -182,8 +303,16 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   userInfoContainer: {
-    marginLeft: 16,
-  },
+    width: '80%', 
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+},
   userName: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -265,6 +394,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
     marginTop: 4,
+  },
+  cardContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

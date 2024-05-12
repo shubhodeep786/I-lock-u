@@ -1,28 +1,28 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { HomeScreenNavigationProp, RootStackParamList } from '../types/navigationTypes'; // Adjust the path as necessary
 
-
-interface LoginScreenProps { }
-
-const LoginScreen: React.FC<LoginScreenProps> = () => {
-    const navigation = useNavigation<HomeScreenNavigationProp>();
-
+const LoginScreen: React.FC = () => {
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>UIL</Text>
-            <Text style={styles.headerText}>Share Documents</Text>
-            <Text style={styles.descriptionText}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
-            </Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.buttonText}>Log in</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText} onPress={() => navigation.navigate('SignUp')}>Sign Up</Text>
-            </TouchableOpacity>
+            <View style={styles.content}>
+                <Text style={styles.title}>UIL</Text>
+                <Text style={styles.headerText}>Share Documents</Text>
+                <Text style={styles.descriptionText}>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    Lorem Ipsum has been the industry's standard dummy text ever since.
+                </Text>
+            </View>
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+                    <Text style={styles.buttonText}>Log in</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -30,22 +30,21 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'space-between',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
+        paddingTop: 40,
+        paddingHorizontal: 20,
         backgroundColor: '#fff',
     },
+    content: {
+        alignItems: 'center',
+        width: '100%',
+    },
     title: {
-        fontSize: 24,
+        fontSize: 48,
         fontWeight: 'bold',
         marginBottom: 20,
-    },
-    imageContainer: {
-        marginBottom: 20,
-    },
-    image: {
-        width: 200,
-        height: 200,
+        color: '#000077',
     },
     headerText: {
         fontSize: 22,
@@ -57,18 +56,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 20,
     },
-    input: {
+    buttonContainer: {
         width: '100%',
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
+        marginBottom: 30,
     },
     button: {
         width: '100%',
         padding: 10,
-        backgroundColor: 'blue',
+        backgroundColor: '#000077',
         alignItems: 'center',
         marginBottom: 10,
     },

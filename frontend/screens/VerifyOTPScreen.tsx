@@ -14,7 +14,7 @@ const VerifyOTPScreen: React.FC = () => {
     const timer = counter > 0 ? setInterval(() => {
       setCounter(counter - 1);
     }, 1000) : null;
-    
+
     return () => {
       if (timer) clearInterval(timer);
     };
@@ -39,17 +39,6 @@ const VerifyOTPScreen: React.FC = () => {
     ));
   };
 
-  const handleKeyPress = (key: string) => {
-    if (key === 'clear') {
-      setOTP(['', '', '', '']);
-    } else {
-      const firstEmptyIndex = OTP.findIndex(value => value === '');
-      if (firstEmptyIndex !== -1) {
-        handleInput(key, firstEmptyIndex);
-      }
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Verify Mobile Number</Text>
@@ -59,7 +48,7 @@ const VerifyOTPScreen: React.FC = () => {
       </View>
       <Text style={styles.timer}>Resend in {counter.toString().padStart(2, '0')} sec</Text>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
+        <Text style={styles.buttonText} onPress={handleNextPress}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -125,3 +114,4 @@ const styles = StyleSheet.create({
 });
 
 export default VerifyOTPScreen;
+// styles should be of the following type correct render the following as given in the screenshot correctly 

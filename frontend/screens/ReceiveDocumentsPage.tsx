@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { QRCode } from 'react-native-custom-qr-codes-expo';
+// import { QRCode } from 'react-native-custom-qr-codes-expo';
 
 const ReceiveDocumentsPage = ({ navigation }) => {
   const handleClose = () => {
@@ -21,13 +21,7 @@ const ReceiveDocumentsPage = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.qrContainer}>
-        <QRCode
-          content="https://example.com/receive-file"
-          size={200}
-          codeStyle="square"
-          outerEyeStyle="square"
-          innerEyeStyle="square"
-        />
+        <Image src="https://th.bing.com/th/id/OIP.mK2kr2iSUYk_Fvz9c5LDhQHaHa?rs=1&pid=ImgDetMain"></Image>
         <Text style={styles.qrTitle}>Scan the QR Code to Receive File</Text>
       </View>
     </View>
@@ -77,3 +71,5 @@ const styles = StyleSheet.create({
 });
 
 export default ReceiveDocumentsPage;
+// rectify the code correctly and implment it correctly and
+//implment it correctly 
