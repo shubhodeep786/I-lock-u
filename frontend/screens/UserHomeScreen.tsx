@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
-import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, RootStackParamList, HomeScreenNavigationProp } from '../types/navigationTypes';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Modal, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
+
 const HomeIcon = () => (
   <Image
     source={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/627/580/original/vector-home-icon-symbol-sign.jpg' }}
@@ -32,12 +33,13 @@ const ProfileIcon = () => (
 
 const UserHomeScreen = () => {
   const [showQR, setShowQR] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+
   const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
   const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
   const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
   const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
   const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
-  const navigation = useNavigation();
 
   const UserHomeButtonClicked = () => {
     HomeScreenNavigation.navigate('UserHome');
@@ -52,9 +54,6 @@ const UserHomeScreen = () => {
     ProfileScreenNavigation.navigate('Profile');
   };
 
-  const ShareDocumentButtonClicked = () => {
-    SharedDocumentScreenNavigation.navigate('SharedDocuments');
-  };
   const handleReceiveDocumentClick = () => {
     setShowQR(true);
   };
@@ -62,8 +61,6 @@ const UserHomeScreen = () => {
   const handleClose = () => {
     setShowQR(false);
   };
-
-  const [showShare, setShowShare] = useState(false);
 
   const handleShareDocumentsClick = () => {
     setShowShare(true);
@@ -73,37 +70,10 @@ const UserHomeScreen = () => {
     setShowShare(false);
   };
 
-  if (showShare) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleCloseShare} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>✕</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.cardContainer}>
-          <Text style={styles.cardTitle}>Share Your Documents</Text>
-        </View>
-      </View>
-    );
-  }
-  if (showQR) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>✕</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.qrContainer}>
-          <Image source={{ uri: "https://th.bing.com/th/id/OIP.mK2kr2iSUYk_Fvz9c5LDhQHaHa" }} style={styles.qrImage} />
-          <Text style={styles.qrTitle}>Scan the QR Code to Receive File</Text>
-          <Image></Image>
-        </View>
-      </View>
-    );
-  }
-
+  const handleNextPress = () => {
+    setShowShare(false);
+    console.log("Next button clicked");
+  };
 
   return (
     <View style={styles.container}>
@@ -130,6 +100,7 @@ const UserHomeScreen = () => {
           <Text style={styles.userDetails}>PAN: GH55H562</Text>
         </View>
       </View>
+
       <View style={styles.documentActionsContainer}>
         <TouchableOpacity
           style={styles.documentActionButton}
@@ -144,44 +115,44 @@ const UserHomeScreen = () => {
           <Text style={styles.documentActionButtonText}>Receive Document</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.recentDocumentsHeader}>
+        <Text style={styles.recentDocumentsHeaderText}>Recent Documents</Text>
+        <TouchableOpacity onPress={() => console.log("History clicked")}>
+          <Text style={styles.historyLink}>History</Text>
+        </TouchableOpacity>
+      </View>
 
-      <Text style={styles.recentDocumentsTitle} >Recent Documents</Text>
-
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView style={styles.recentDocumentsContainer} showsVerticalScrollIndicator={false}>
         <View style={styles.recentDocumentCard}>
           <Image source={{ uri: 'https://example.com/aadhar-card.jpg' }} style={styles.documentImage} />
-          <Text style={styles.documentTitle}>Aadhar Card</Text>
-          <View style={styles.shareInfo}>
-            <Text style={styles.shareLabel}>Shared to</Text>
-            <View style={styles.shareIcons}>
-              <ProfileIcon />
-              <ProfileIcon />
-              <ProfileIcon />
+          <View style={styles.documentInfo}>
+            <Text style={styles.documentTitle}>Aadhar Card</Text>
+            <Text style={styles.uploadDate}>Upload on 1 Jan 2020</Text>
+            <View style={styles.shareInfo}>
+              <Text style={styles.shareLabel}>Shared to</Text>
+              <Image source={{ uri: 'https://example.com/share-icon.png' }} style={styles.shareIcon} />
             </View>
           </View>
-          <Text style={styles.lastSharedDate}>Last Shared: 01 Jan 2022</Text>
+          <Text style={styles.lastSharedDate}>Last Shared on 1 Jan 2020</Text>
         </View>
 
         <View style={styles.recentDocumentCard}>
           <Image source={{ uri: 'https://example.com/pan-card.jpg' }} style={styles.documentImage} />
-          <Text style={styles.documentTitle}>Pan Card</Text>
-          <View style={styles.shareInfo}>
-            <Text style={styles.shareLabel}>Shared to</Text>
-            <View style={styles.shareIcons}>
-              <ProfileIcon />
-              <ProfileIcon />
-              <ProfileIcon />
-              <ProfileIcon />
-              <ProfileIcon />
+          <View style={styles.documentInfo}>
+            <Text style={styles.documentTitle}>Pan Card</Text>
+            <Text style={styles.uploadDate}>Upload on 1 Jan 2020</Text>
+            <View style={styles.shareInfo}>
+              <Text style={styles.shareLabel}>Shared to</Text>
+              <Image source={{ uri: 'https://example.com/share-icon.png' }} style={styles.shareIcon} />
             </View>
           </View>
-          <Text style={styles.lastSharedDate}>Last Shared: 01 Jan 2022</Text>
+          <Text style={styles.lastSharedDate}>Last Shared on 1 Jan 2020</Text>
         </View>
       </ScrollView>
 
       {/* Bottom Navbar */}
-      <View style={styles.bottomNavbar} >
-        <TouchableOpacity style={styles.navbarButton} onPress={UserHomeButtonClicked} >
+      <View style={styles.bottomNavbar}>
+        <TouchableOpacity style={styles.navbarButton} onPress={UserHomeButtonClicked}>
           <HomeIcon />
           <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>
@@ -189,64 +160,83 @@ const UserHomeScreen = () => {
           <DocumentIcon />
           <Text style={styles.navbarButtonText}>Documents</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} >
+        <TouchableOpacity style={styles.navbarButton} onPress={UploadDocumentButtonClicked}>
           <UploadIcon />
-          <Text style={styles.navbarButtonText} onPress={UploadDocumentButtonClicked}>Upload</Text>
+          <Text style={styles.navbarButtonText}>Upload</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton}>
+        <TouchableOpacity style={styles.navbarButton} onPress={ProfileButtonClicked}>
           <ProfileIcon />
-          <Text style={styles.navbarButtonText} onPress={ProfileButtonClicked}>Profile</Text>
+          <Text style={styles.navbarButtonText}>Profile</Text>
         </TouchableOpacity>
       </View>
+
+      {/* QR Modal */}
+      <Modal visible={showQR} animationType="slide" transparent={true} onRequestClose={handleClose}>
+        <View style={styles.qrModalContainer}>
+          <View style={styles.qrContainer}>
+            <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>✕</Text>
+            </TouchableOpacity>
+            <Text style={styles.qrTitle}>Scan the QR Code</Text>
+            <View style={styles.qrBox}></View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Share Modal */}
+      <Modal visible={showShare} animationType="slide" transparent={true} onRequestClose={handleCloseShare}>
+        <View style={styles.shareModalContainer}>
+          <View style={styles.shareModal}>
+            <View style={styles.modalIndicator} />
+            <Text style={styles.modalTitle}>Share Documents Using</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter EKID or Mobile Number"
+              placeholderTextColor="#888"
+            />
+            <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+              <Text style={styles.buttonText}>Next</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  closeButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 20,
-    zIndex: 1,
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
-  closeButtonText: {
-    fontSize: 20,
-    color: 'black',
-  },
-  qrContainer: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  qrImage: {
-    width: 200,
-    height: 200,
-  },
-  qrTitle: {
-    marginTop: 20,
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+  searchContainer: {
     padding: 16,
+  },
+  searchInput: {
+    backgroundColor: '#f2f2f2',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  userProfileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+  },
+  profilePicture: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+  },
+  userInfoContainer: {
+    marginLeft: 16,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  userDetails: {
+    color: '#666666',
   },
   documentActionsContainer: {
     flexDirection: 'row',
@@ -273,93 +263,54 @@ const styles = StyleSheet.create({
   },
   documentActionButtonText: {
     color: '#FFFFFF',
-    marginTop: 5,
+    fontWeight: 'bold',
   },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  searchContainer: {
-    padding: 16,
-  },
-  searchInput: {
-    backgroundColor: '#f2f2f2',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  userProfileContainer: {
+  recentDocumentsHeader: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
+    paddingHorizontal: 16,
+    marginBottom: 10,
   },
-  profilePicture: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-  },
-  userInfoContainer: {
-    width: '80%',
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  userName: {
+  recentDocumentsHeaderText: {
     fontSize: 18,
     fontWeight: 'bold',
   },
-  userDetails: {
-    color: '#666',
+  historyLink: {
+    color: '#091D64',
+    textDecorationLine: 'underline',
   },
-  actionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 16,
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  recentDocumentsContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  shareDocumentButton: {
-    backgroundColor: '#007AFF',
-  },
-  receiveDocumentButton: {
-    backgroundColor: '#5AC8FA',
-  },
-  actionButtonText: {
-    color: '#fff',
-    marginLeft: 8,
-    fontWeight: 'bold',
-  },
-  recentDocumentsTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 16,
-    marginBottom: 8,
   },
   recentDocumentCard: {
-    backgroundColor: '#f2f2f2',
-    padding: 16,
-    marginHorizontal: 16,
-    borderRadius: 8,
+    flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 2,
   },
   documentImage: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     borderRadius: 8,
   },
+  documentInfo: {
+    marginLeft: 16,
+    flex: 1,
+  },
   documentTitle: {
-    marginTop: 8,
+    fontSize: 16,
     fontWeight: 'bold',
+  },
+  uploadDate: {
+    color: '#666666',
   },
   shareInfo: {
     flexDirection: 'row',
@@ -368,14 +319,16 @@ const styles = StyleSheet.create({
   },
   shareLabel: {
     marginRight: 8,
-    color: '#666',
+    color: '#666666',
   },
-  shareIcons: {
-    flexDirection: 'row',
+  shareIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#666666',
   },
   lastSharedDate: {
+    color: '#666666',
     marginTop: 8,
-    color: '#666',
   },
   bottomNavbar: {
     flexDirection: 'row',
@@ -388,24 +341,112 @@ const styles = StyleSheet.create({
   },
   navbarButtonText: {
     fontSize: 12,
-    color: '#333',
+    color: '#333333',
     marginTop: 4,
   },
-  cardContainer: {
-    width: '100%',
-    height: '100%',
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    zIndex: 1,
+  },
+  closeButtonText: {
+    fontSize: 20,
+    color: '#000000',
+  },
+  qrModalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  qrContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: Dimensions.get('window').height / 2 * 1.3, // Increase the height by 30%
+    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+},
+  qrTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  cardTitle: {
+  qrBox: {
+    width: 200,
+    height: 200,
+    borderColor: '#0000CD',
+    borderWidth: 2,
+    borderRadius: 10,
+  },
+  shareModalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+  shareModal: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalIndicator: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 3,
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#D3D3D3',
+    fontSize: 16,
+    paddingVertical: 10,
+    marginBottom: 30,
+    color: '#000',
+  },
+  button: {
+    backgroundColor: '#091D64',
+    borderRadius: 10,
+    width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
   },

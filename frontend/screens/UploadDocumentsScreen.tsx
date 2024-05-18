@@ -47,13 +47,19 @@ const ProfileIcon = () => (
 );
 
 const UploadDocumentsScreen: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [documentTypeModalVisible, setDocumentTypeModalVisible] = useState(false);
+  const [importOptionsModalVisible, setImportOptionsModalVisible] = useState(false);
   const [documentType, setDocumentType] = useState('');
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const openModal = (type: string) => {
+  const openDocumentTypeModal = (type: string) => {
     setDocumentType(type);
-    setModalVisible(true);
+    setDocumentTypeModalVisible(true);
+  };
+
+  const openImportOptionsModal = () => {
+    setDocumentTypeModalVisible(false);
+    setImportOptionsModalVisible(true);
   };
 
   const documentIcons = [
@@ -63,13 +69,20 @@ const UploadDocumentsScreen: React.FC = () => {
     { id: 'Travel', icon: 'https://example.com/icon-travel.svg' }
   ];
 
+  const importOptions = [
+    'Digi Locker',
+    'Google Drive',
+    'One Drive',
+    'Import From PNR'
+  ];
+
   const DocumentTypeModal: React.FC = () => (
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalVisible}
+      visible={documentTypeModalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        setDocumentTypeModalVisible(!documentTypeModalVisible);
       }}
     >
       <View style={styles.centeredView}>
@@ -90,10 +103,7 @@ const UploadDocumentsScreen: React.FC = () => {
           </ScrollView>
           <TouchableOpacity
             style={[styles.button, styles.buttonClose]}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              console.log('Selected Document Type:', selectedType);
-            }}
+            onPress={openImportOptionsModal}
           >
             <Text style={styles.textStyle}>Next</Text>
           </TouchableOpacity>
@@ -102,17 +112,40 @@ const UploadDocumentsScreen: React.FC = () => {
     </Modal>
   );
 
+  const ImportOptionsModal: React.FC = () => (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={importOptionsModalVisible}
+      onRequestClose={() => {
+        setImportOptionsModalVisible(!importOptionsModalVisible);
+      }}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <View style={styles.modalIndicator} />
+          <Text style={styles.modalText}>Import From</Text>
+          {importOptions.map((option) => (
+            <TouchableOpacity key={option} style={styles.importButton}>
+              <Text style={styles.importButtonText}>{option}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    </Modal>
+  );
+
   const ProfileButtonClicked = (event: GestureResponderEvent) => {
     console.log("Profile button clicked");
-  }
+  };
 
   const UploadDocumentButtonClicked = (event: GestureResponderEvent) => {
     console.log("Upload button clicked");
-  }
+  };
 
   const DocumentsButtonClicked = (event: GestureResponderEvent) => {
     console.log("Documents button clicked");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -122,17 +155,17 @@ const UploadDocumentsScreen: React.FC = () => {
         <ActionCard
           title="Upload Documents"
           icon={{ uri: 'https://example.com/upload-icon.jpg' }}
-          onPress={() => openModal('Upload Documents')}
+          onPress={() => openDocumentTypeModal('Upload Documents')}
         />
         <ActionCard
           title="Scan Document"
           icon={{ uri: 'https://example.com/scan-icon.jpg' }}
-          onPress={() => openModal('Scan Document')}
+          onPress={() => openDocumentTypeModal('Scan Document')}
         />
         <ActionCard
           title="Import"
           icon={{ uri: 'https://example.com/import-icon.jpg' }}
-          onPress={() => openModal('Import')}
+          onPress={() => openDocumentTypeModal('Import')}
           large={true}
         />
       </View>
@@ -156,6 +189,7 @@ const UploadDocumentsScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <DocumentTypeModal />
+      <ImportOptionsModal />
     </View>
   );
 };
@@ -296,6 +330,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
     marginTop: 4,
+  },
+  importButton: {
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    marginVertical: 8,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    width: '100%',
+    alignItems: 'center',
+  },
+  importButtonText: {
+    fontSize: 16,
+    color: '#091D64',
+    fontWeight: '600',
   },
 });
 
