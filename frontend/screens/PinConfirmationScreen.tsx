@@ -1,119 +1,134 @@
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { UserHomeScreenProps } from '../types/navigationTypes';
 
-const PinConfirmationScreen: React.FC = () => {
-  const [pin, setPin] = useState<string[]>(Array(6).fill(''));
+const ConfirmPinScreen: React.FC = () => {
+  const [pin, setPin] = useState<string[]>(['', '', '', '', '', '']);
+  const inputRefs = useRef<Array<TextInput | null>>([]);
   const navigation = useNavigation<UserHomeScreenProps['navigation']>();
-  const handleInput = (value: string) => {
-    const nextIndex = pin.findIndex((p) => p === '');
-    if (nextIndex !== -1) {
-      const newPin = [...pin];
-      newPin[nextIndex] = value;
-      setPin(newPin);
+
+  const handleNextPress = () => {
+    if (pin.join('').length === 6) {
+      navigation.navigate('UserHome');
+    } else {
+      alert('Please enter a 6-digit PIN.');
     }
   };
 
+  const handlePinChange = (index: number, value: string) => {
+    const newPin = [...pin];
+    newPin[index] = value;
+    setPin(newPin);
 
-  const handleDelete = () => {
-    const lastIndex = pin.findIndex((p) => p === '') - 1;
-    if (lastIndex >= 0) {
-      const newPin = [...pin];
-      newPin[lastIndex] = '';
-      setPin(newPin);
-    } else if (pin[pin.length - 1] !== '') { 
-      const newPin = [...pin];
-      newPin[pin.length - 1] = '';
-      setPin(newPin);
+    if (value !== '' && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+
+    if (newPin.join('').length === 6) {
+      navigation.navigate('UserHome');
     }
   };
-  const handleNext = () => {
-    navigation.navigate('Home'); 
-  };
 
-
-  const renderPinCircles = () => {
-    return pin.map((p, index) => (
-      <View key={index} style={[styles.circle, p !== '' ? styles.filledCircle : null]} />
-    ));
+  const handleKeyPress = (index: number, key: string) => {
+    if (key === 'Backspace' && pin[index] === '' && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Pin Confirmation</Text>
-      <Text style={styles.subheader}>Enter 7 digit pin</Text>
-      <View style={styles.pinContainer}>{renderPinCircles()}</View>
-      <Text style={styles.forgotPin}>Forgot Pin</Text>
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.header}>Pin Confirmation</Text>
+        <Text style={styles.subheader}>Enter 6 digit pin</Text>
+        <View style={styles.pinContainer}>
+          {pin.map((p, index) => (
+            <TextInput
+              key={index}
+              ref={(ref) => inputRefs.current[index] = ref}
+              style={styles.pinInput}
+              keyboardType="number-pad"
+              maxLength={1}
+              value={p}
+              onChangeText={(value) => handlePinChange(index, value)}
+              onKeyPress={({ nativeEvent }) => handleKeyPress(index, nativeEvent.key)}
+              autoFocus={index === 0}
+            />
+          ))}
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.forgotPinText}>Forgot Pin</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+      <TouchableOpacity style={styles.button} onPress={handleNextPress}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#091D64',
     marginBottom: 10,
   },
   subheader: {
     fontSize: 16,
+    color: '#666666',
     marginBottom: 20,
   },
   pinContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 20,
   },
-  circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+  pinInput: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: '#ccc',
+    textAlign: 'center',
+    fontSize: 20,
+    marginHorizontal: 5,
   },
-  filledCircle: {
-    backgroundColor: '#333',
-  },
-  forgotPin: {
-    color: 'blue',
+  forgotPinText: {
+    fontSize: 14,
+    color: '#091D64',
+    textDecorationLine: 'underline',
     marginBottom: 20,
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#091D64',
+    borderRadius: 10,
     width: '100%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
   },
   buttonText: {
+    color: '#FFFFFF',
     fontSize: 18,
-    color: '#fff',
-    textAlign: 'center',
+    fontWeight: 'bold',
   },
-  keypad: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  keyStyle: {
-    width: '30%',
-    padding: 10,
-    alignItems: 'center',
-    margin: 5,
-  },
-  keyText: {
-    fontSize: 20,
-  }
 });
 
-export default PinConfirmationScreen;
+export default ConfirmPinScreen;
+function alert(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

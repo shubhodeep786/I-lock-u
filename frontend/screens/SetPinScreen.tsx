@@ -7,7 +7,6 @@ const SetPinScreen: React.FC = () => {
   const navigation = useNavigation();
   const pinInputRef = useRef<TextInput>(null);
 
-  // Function to handle the navigation once the PIN is fully entered
   const handleNextPress = () => {
     if (pin.length === 4) {
       navigation.navigate('SetBiometric');
@@ -16,7 +15,6 @@ const SetPinScreen: React.FC = () => {
     }
   };
 
-  // Function to render the PIN input circles
   const renderPinCircles = () => {
     let circles = [];
     for (let i = 0; i < 4; i++) {
@@ -42,7 +40,7 @@ const SetPinScreen: React.FC = () => {
           style={styles.hiddenInput}
           returnKeyType="done"
           autoFocus={true}
-          secureTextEntry={true} // hide text entry
+          secureTextEntry={true}
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleNextPress}>
@@ -58,15 +56,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#000',
   },
   subheader: {
     fontSize: 16,
     marginBottom: 20,
+    color: '#666',
   },
   pinContainer: {
     flexDirection: 'row',
@@ -75,25 +76,29 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#000080',
+    marginHorizontal: 5,
   },
   filledCircle: {
-    backgroundColor: '#333',
+    backgroundColor: '#000080',
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
+    position: 'absolute',
+    bottom: 30,
+    left: 20,
+    right: 20,
+    backgroundColor: '#000080',
+    padding: 15,
     borderRadius: 5,
-    width: '100%',
-    marginBottom: 20,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
-    textAlign: 'center',
+    fontSize: 16,
   },
   hiddenInput: {
     position: 'absolute',

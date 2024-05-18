@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
 import { UserHomeScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
 import { useNavigation } from '@react-navigation/native';
+
 const CreateProfileScreen: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -9,17 +10,23 @@ const CreateProfileScreen: React.FC = () => {
   const [aadharNumber, setAadharNumber] = useState('');
   const [panNumber, setPanNumber] = useState('');
   const navigation = useNavigation<UserHomeScreenProps['navigation']>();
+
   const handleNextPress = () => {
     navigation.navigate('UserHome');
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.header}>Create Profile</Text>
-        <Image
-          style={styles.profileImage}
-          source={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' }}
-        />
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>Create Profile</Text>
+        </View>
+        <View style={styles.profileImageContainer}>
+          <Image
+            style={styles.profileImage}
+            source={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' }}
+          />
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Enter Your Name"
@@ -52,10 +59,12 @@ const CreateProfileScreen: React.FC = () => {
           value={panNumber}
           onChangeText={setPanNumber}
         />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
-        </TouchableOpacity>
       </ScrollView>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -69,16 +78,23 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
   },
+  headerContainer: {
+    width: '100%',
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
+  },
+  profileImageContainer: {
+    alignItems: 'center',
     marginBottom: 20,
   },
   profileImage: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    marginBottom: 20,
   },
   input: {
     width: '100%',
@@ -88,8 +104,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
+  footer: {
+    padding: 20,
+    backgroundColor: '#fff',
+  },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#000080',
     padding: 12,
     borderRadius: 5,
     width: '100%',
@@ -98,7 +118,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
-  }
+  },
 });
 
 export default CreateProfileScreen;

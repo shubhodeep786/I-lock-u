@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
 interface DocumentCategoryCardProps {
   title: string;
-  icon: any; // Use require('path/to/image.png') when using this prop
+  icon: any; 
   onPress: () => void;
 }
 

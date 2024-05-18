@@ -16,11 +16,11 @@ import DocumentsScreen from './screens/DocumentsScreen';
 import SharedDocumentsScreen from './screens/SharedDocumentsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
-import FullScreenScanner from './screens/FullScreenScanner';//Full Screen Scanner
-import SelectDocumentsPage from './screens/SelectDocumentsPage';//Select Documents to share
-import QRCodePage from './screens/QRCodePage';//Code with QR Code Modal
-import SendingScreen from './screens/SendingScreen';//Sending Screen
-import IdentityDocumentsScreen from './screens/IdentityDocumentsScreen';//Identity Documents Screen
+import FullScreenScanner from './screens/FullScreenScanner';
+import SelectDocumentsPage from './screens/SelectDocumentsPage';
+import QRCodePage from './screens/QRCodePage';
+import SendingScreen from './screens/SendingScreen';
+import IdentityDocumentsScreen from './screens/IdentityDocumentsScreen';
 import ReceiveDocumentsPage from './screens/ReceiveDocumentsPage'
 const Stack = createNativeStackNavigator();
 

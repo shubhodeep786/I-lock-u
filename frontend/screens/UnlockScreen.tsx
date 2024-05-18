@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView } from 'r
 
 const UnlockScreen: React.FC = () => {
   const navigation = useNavigation<PinConfirmationScreenProps['navigation']>();
+
   // Placeholder function for handling fingerprint unlock
   const handleFingerprintUnlock = () => {
     console.log('Fingerprint unlock attempted');
@@ -40,39 +41,44 @@ const UnlockScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-//when the user clicks on the 'USE PIN' button, they should be routed to the <Stack.Screen name="PinConfirmation" component={PinConfirmationScreen} />
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
   },
   headerContainer: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#CCCCCC',
     width: '100%',
-    padding: 20,
+    height: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logoText: {
-    textAlign: 'center',
-    fontSize: 24,
+    fontSize: 48,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#091D64',
   },
   contentContainer: {
     flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    marginTop: -30,
   },
   unlockText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#091D64',
     marginBottom: 10,
   },
   descriptionText: {
     fontSize: 16,
     textAlign: 'center',
+    color: '#666666',
     marginBottom: 30,
   },
   fingerprintButton: {
@@ -84,20 +90,19 @@ const styles = StyleSheet.create({
     height: 100,
   },
   fingerprintText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 14,
+    color: '#666666',
     marginTop: 10,
   },
   usePinButton: {
     padding: 10,
-    backgroundColor: '#007bff',
-    borderRadius: 5,
   },
   usePinText: {
-    fontSize: 18,
-    color: '#fff',
+    fontSize: 16,
+    color: '#091D64',
     textAlign: 'center',
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default UnlockScreen;

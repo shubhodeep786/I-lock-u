@@ -1,8 +1,9 @@
-// LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LoginScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+import { LoginScreenProps } from '../types/navigationTypes'; 
+
+const screenWidth = Dimensions.get('window').width;
 
 const LoginScreen: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -14,68 +15,80 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Log in</Text>
-      <Text style={styles.subheader}>Enter Mobile Number to Continue</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Log in</Text>
+      <Text style={styles.subtitle}>Enter Mobile Number to Continue</Text>
       <TextInput
         style={styles.input}
+        keyboardType="phone-pad"
         placeholder="+91 00000 00000"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
-        keyboardType="phone-pad"
-        autoCapitalize="none"
+        placeholderTextColor="#000"
       />
-      <Text style={styles.termsText}>By Entering OTP, I agree with the Terms and condition</Text>
-      <TouchableOpacity onPress={handleLogin} style={styles.button}>
+      <Text style={styles.agreementText}>
+        By Entering OTP, I agree with the <Text style={styles.termsText}>Terms and conditions</Text>
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
-  header: {
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#000',
+    marginBottom: 10,
   },
-  subheader: {
+  subtitle: {
     fontSize: 16,
+    color: '#666666',
     marginBottom: 20,
   },
   input: {
-    fontSize: 18,
-    borderBottomWidth: 2,
-    borderBottomColor: '#000',
     width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#D3D3D3',
+    fontSize: 20,
+    paddingVertical: 10,
+    marginBottom: 30,
+    color: '#000',
+  },
+  agreementText: {
+    fontSize: 12,
+    color: '#666666',
     textAlign: 'center',
     marginBottom: 20,
   },
   termsText: {
-    fontSize: 14,
-    color: '#aaa',
-    marginBottom: 20,
-    textAlign: 'center',
+    color: '#091D64',
+    textDecorationLine: 'underline',
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 5,
-    width: '100%',
+    backgroundColor: '#091D64',
+    borderRadius: 10,
+    width: screenWidth * 0.9,
+    height: 50,
+    justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    bottom: 20, // Adjust this value as needed to add padding from the bottom
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontSize: 18,
-  }
+    fontWeight: 'bold',
+  },
 });
 
 export default LoginScreen;

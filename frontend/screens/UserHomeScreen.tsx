@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput } from 'react-native';
-import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, RootStackParamList } from '../types/navigationTypes';
+import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, RootStackParamList, HomeScreenNavigationProp } from '../types/navigationTypes';
 import { useNavigation } from '@react-navigation/native';
 const HomeIcon = () => (
   <Image
@@ -36,11 +36,11 @@ const UserHomeScreen = () => {
   const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
   const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
   const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
-  const SharedDocumentScreenNavigationzz = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+  const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
   const navigation = useNavigation();
-  
+
   const UserHomeButtonClicked = () => {
-    navigation1.navigate('UserHome');
+    HomeScreenNavigation.navigate('UserHome');
   };
   const DocumentsButtonClicked = () => {
     DocumentScreenNavigation.navigate('Documents');
@@ -55,9 +55,6 @@ const UserHomeScreen = () => {
   const ShareDocumentButtonClicked = () => {
     SharedDocumentScreenNavigation.navigate('SharedDocuments');
   };
-  const handleNextPress6 = () => {
-    navigation6.navigate('UnlockScreen');
-  };
   const handleReceiveDocumentClick = () => {
     setShowQR(true);
   };
@@ -69,11 +66,11 @@ const UserHomeScreen = () => {
   const [showShare, setShowShare] = useState(false);
 
   const handleShareDocumentsClick = () => {
-    setShowShare(true); // Shows the card for sharing documents
+    setShowShare(true);
   };
 
   const handleCloseShare = () => {
-    setShowShare(false); // Hides the card
+    setShowShare(false);
   };
 
   if (showShare) {
@@ -86,7 +83,6 @@ const UserHomeScreen = () => {
         </View>
         <View style={styles.cardContainer}>
           <Text style={styles.cardTitle}>Share Your Documents</Text>
-          {/* Additional content and actions for sharing documents */}
         </View>
       </View>
     );
@@ -185,7 +181,7 @@ const UserHomeScreen = () => {
 
       {/* Bottom Navbar */}
       <View style={styles.bottomNavbar} >
-        <TouchableOpacity style={styles.navbarButton} >
+        <TouchableOpacity style={styles.navbarButton} onPress={UserHomeButtonClicked} >
           <HomeIcon />
           <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>
@@ -303,7 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   userInfoContainer: {
-    width: '80%', 
+    width: '80%',
     padding: 20,
     borderRadius: 10,
     backgroundColor: 'white',
@@ -312,7 +308,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-},
+  },
   userName: {
     fontSize: 18,
     fontWeight: 'bold',

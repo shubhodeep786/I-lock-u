@@ -3,10 +3,10 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, SafeAreaView } fro
 import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen: React.FC = () => {
-  const navigation = useNavigation(); // Assume a properly configured navigation type
+  const navigation = useNavigation(); 
 
   const handleNextPress = () => {
-    navigation.navigate('OTPVerification'); // Ensure your route names match the actual configuration
+    navigation.navigate('OTPVerification'); 
   };
 
   return (

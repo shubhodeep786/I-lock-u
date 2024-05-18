@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { SetPinScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
 import { useNavigation } from '@react-navigation/native';
+import { SetPinScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+
 const VerifyOTPScreen: React.FC = () => {
   const [OTP, setOTP] = useState<Array<string>>(['', '', '', '']);
   const [counter, setCounter] = useState(30);
@@ -12,7 +13,7 @@ const VerifyOTPScreen: React.FC = () => {
 
   useEffect(() => {
     const timer = counter > 0 ? setInterval(() => {
-      setCounter(counter - 1);
+      setCounter((prevCounter) => prevCounter - 1);
     }, 1000) : null;
 
     return () => {
@@ -42,13 +43,17 @@ const VerifyOTPScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Verify Mobile Number</Text>
-      <Text style={styles.subheader}>we have sent an OTP to your registered mobile number</Text>
+      <Text style={styles.subheader}>
+        we have sent an OTP to your registered mobile number xxxxxx0017
+      </Text>
       <View style={styles.inputsContainer}>
         {renderInputs()}
       </View>
-      <Text style={styles.timer}>Resend in {counter.toString().padStart(2, '0')} sec</Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText} onPress={handleNextPress}>Next</Text>
+      <Text style={styles.timer}>
+        Resend in <Text style={styles.timerText}>{counter.toString().padStart(2, '0')} sec</Text>
+      </Text>
+      <TouchableOpacity style={styles.button} onPress={handleNextPress}>
+        <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -60,15 +65,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: '#000',
   },
   subheader: {
     textAlign: 'center',
     marginBottom: 20,
+    color: '#666',
   },
   inputsContainer: {
     flexDirection: 'row',
@@ -76,42 +84,36 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputBox: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#000080',
+    borderRadius: 5,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 24,
+    marginHorizontal: 5,
   },
   timer: {
     marginBottom: 20,
+    color: '#000',
+  },
+  timerText: {
+    color: 'red',
   },
   button: {
-    backgroundColor: 'blue',
-    padding: 10,
+    position: 'absolute',
+    bottom: 30,
+    left: 20,
+    right: 20,
+    backgroundColor: '#000080',
+    padding: 15,
     borderRadius: 5,
-    width: '100%',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
-    textAlign: 'center',
+    fontSize: 16,
   },
-  keypad: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    width: '100%',
-  },
-  keyStyle: {
-    width: '30%',
-    padding: 10,
-    alignItems: 'center',
-    margin: 5,
-  },
-  keyText: {
-    fontSize: 20,
-  }
 });
 
 export default VerifyOTPScreen;
-// styles should be of the following type correct render the following as given in the screenshot correctly 
