@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Modal, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
+import { UploadDocumentsScreenNavigationProp,ReciveDocumentProps,NotificationScreenProps,SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
 
 const HomeIcon = () => (
   <Image
@@ -31,6 +31,13 @@ const ProfileIcon = () => (
   />
 );
 
+const NotificationIcon = () => (
+  <Image
+    source={{ uri: 'https://cdn-icons-png.flaticon.com/512/747/747545.png' }}
+    style={{ width: 24, height: 24, tintColor: '#333' }}
+  />
+);
+
 const UserHomeScreen = () => {
   const [showQR, setShowQR] = useState(false);
   const [showShare, setShowShare] = useState(false);
@@ -40,7 +47,13 @@ const UserHomeScreen = () => {
   const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
   const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
   const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
-
+  const NotificationScreenProps = useNavigation<NotificationScreenProps['navigation']>();
+  const ReciveDocumentProps = useNavigation<ReciveDocumentProps['navigation']>();
+  const SelectDocumentsPageNavigationProp = useNavigation<SelectDocumentsPageNavigationProp['navigation']>();
+  const handleNotificationClick = () => {
+    NotificationScreenProps.navigate('Notification');
+    console.log("Notification clicked");
+  };
   const UserHomeButtonClicked = () => {
     HomeScreenNavigation.navigate('UserHome');
   };
@@ -71,18 +84,21 @@ const UserHomeScreen = () => {
   };
 
   const handleNextPress = () => {
-    setShowShare(false);
-    console.log("Next button clicked");
+    SelectDocumentsPageNavigationProp.navigate('SelectDocuments');
+    // console.log("Next button clicked");
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
+       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
           placeholder="Search for documents"
           placeholderTextColor="#888"
         />
+        <TouchableOpacity onPress={handleNotificationClick} style={styles.notificationButton}>
+          <NotificationIcon />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.userProfileContainer}>
@@ -209,14 +225,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+  notificationButton: {
+    padding: 10,
+  },
   searchContainer: {
     padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   searchInput: {
     backgroundColor: '#f2f2f2',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
+    flex: 1,
+    marginRight: 10,
   },
   userProfileContainer: {
     flexDirection: 'row',
@@ -370,7 +394,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: Dimensions.get('window').height / 2 * 1.3, // Increase the height by 30%
+    height: Dimensions.get('window').height / 2 * 1.3,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
@@ -453,3 +477,5 @@ const styles = StyleSheet.create({
 });
 
 export default UserHomeScreen;
+
+

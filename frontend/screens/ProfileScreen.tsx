@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, StyleSheet, Text, Image, TouchableOpacity, Dimensions, Modal } from 'react-native';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -65,9 +65,15 @@ const MenuButton: React.FC<MenuButtonProps> = ({ title, onPress }) => {
 };
 
 const ProfileScreen: React.FC = () => {
-  function DocumentsButtonClicked(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const openDownloadModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeDownloadModal = () => {
+    setModalVisible(false);
+  };
 
   function DocumentsButtonClicked(event: GestureResponderEvent): void {
     throw new Error('Function not implemented.');
@@ -82,21 +88,23 @@ const ProfileScreen: React.FC = () => {
   }
 
   return (
-    <><ScrollView style={styles.container}>
-      <ProfileHeader
-        userName="Kundan Chouhan"
-        userId="6294530017"
-        userImage={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' }} />
-      <View style={styles.menuContainer}>
-        <MenuButton title="My Personal Details" onPress={() => { } } />
-        <MenuButton title="Settings" onPress={() => { } } />
-        <MenuButton title="My Shared History" onPress={() => { } } />
-        <MenuButton title="Download Data" onPress={() => { } } />
-        <MenuButton title="My Documents" onPress={() => { } } />
-        <MenuButton title="Change Pin" onPress={() => { } } />
-      </View>
-    </ScrollView><View style={styles.bottomNavbar}>
-        <TouchableOpacity style={styles.navbarButton}>
+    <>
+      <ScrollView style={styles.container}>
+        <ProfileHeader
+          userName="Kundan Chouhan"
+          userId="6294530017"
+          userImage={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' }}
+        />
+        <View style={styles.menuContainer}>
+          <MenuButton title="Settings" onPress={() => { }} />
+          <MenuButton title="My Shared History" onPress={() => { }} />
+          <MenuButton title="Download Data" onPress={openDownloadModal} />
+          <MenuButton title="My Documents" onPress={() => { }} />
+          <MenuButton title="Change Pin" onPress={() => { }} />
+        </View>
+      </ScrollView>
+      <View style={styles.bottomNavbar}>
+        <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <HomeIcon />
           <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>
@@ -112,7 +120,33 @@ const ProfileScreen: React.FC = () => {
           <ProfileIcon />
           <Text style={styles.navbarButtonText}>Profile</Text>
         </TouchableOpacity>
-      </View></>
+      </View>
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeDownloadModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalIndicator} />
+            <TouchableOpacity onPress={closeDownloadModal} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>✕</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalButton} onPress={() => { }}>
+              <Text style={styles.modalButtonText}>Download ZIP</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalButton} onPress={() => { }}>
+              <Text style={styles.modalButtonText}>Get it to Your Registered Mail Id</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.modalButton} onPress={() => { }}>
+              <Text style={styles.modalButtonText}>Get Download Link</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
@@ -122,11 +156,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F7FC',
   },
   headerContainer: {
-    height: screenHeight * 0.2,  // 40% of the screen height
+    height: screenHeight * 0.2,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
-     width: 470,
     backgroundColor: '#fff',
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
@@ -195,6 +228,48 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     tintColor: '#091D64',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalIndicator: {
+    width: 40,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 3,
+    marginBottom: 10,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+  },
+  closeButtonText: {
+    fontSize: 20,
+    color: '#000',
+  },
+  modalButton: {
+    backgroundColor: '#F4F7FC',
+    borderRadius: 8,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginVertical: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#091D64',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

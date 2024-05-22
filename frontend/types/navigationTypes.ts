@@ -1,5 +1,5 @@
-// types/navigationTypes.ts
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -21,11 +21,12 @@ export type RootStackParamList = {
   SelectDocuments: undefined;
   QRCode: undefined;
   SendingScreen: undefined;
-  ReciveDocument:undefined;
-  
+  ReciveDocument: undefined;
+  Notification: undefined;
 };
-export type ReciveDocumentProps =  NativeStackScreenProps<RootStackParamList, 'ReciveDocument'>;
-// Utilize NativeStackScreenProps for uniformity
+
+export type ReciveDocumentProps = NativeStackScreenProps<RootStackParamList, 'ReciveDocument'>;
+export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Notification'>;
 export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export type LoginScreenProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 export type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
@@ -43,6 +44,6 @@ export type DocumentsScreenNavigationProp = NativeStackScreenProps<RootStackPara
 export type SharedDocumentsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'SharedDocuments'>;
 export type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 export type FullScreenScannerNavigationProp = NativeStackScreenProps<RootStackParamList, 'FullScreenScanner'>;
-export type SelectDocumentsPageNavigationProp = NativeStackScreenProps<RootStackParamList, 'SelectDocuments'>;
 export type QRCodePageNavigationProp = NativeStackScreenProps<RootStackParamList, 'QRCode'>;
 export type SendingScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'SendingScreen'>;
+export type SelectDocumentsPageNavigationProp = StackNavigationProp<RootStackParamList, 'SelectDocuments'>;
