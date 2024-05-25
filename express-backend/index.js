@@ -1,310 +1,421 @@
-import express from "express";
-import process from "process";
-import { Pool } from "pg";
-import { json } from "body-parser";
-import { config } from "dotenv";
+const express = require('express');
+const bodyParser = require('body-parser');
+const { User } = require('./models/user'); 
+const { Resource } = require('./models/resource'); 
+const { DocumentTransaction } = require('./models');  l
+const { DID } = require('./models/did');  
+const {DocumentTransaction} = require('./models/documenttransaction');
+
 const app = express();
-const port = 3000;
-config();
-// PostgreSQL connection configuration
-/* const pool = new Pool({
-  user: "your_username",
-  host: "localhost",
-  database: "your_database_name",
-  password: "your_password",
-  port: 5432,
-});
- */
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-});
+app.use(bodyParser.json());
 
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_HOST:", process.env.DB_HOST);
-console.log("DB_NAME:", process.env.DB_NAME);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
-console.log("DB_PORT:", process.env.DB_PORT);
-
-// Middleware
-app.use(json());
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
-// CRUD operations for Users
-
-// Create a new user
-app.post("/users", async (req, res) => {
+// CRUD Operations for Resources
+app.post('/resources', async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      phoneNumber,
-      loginPIN,
-      dateOfBirth,
-      aadhaarNumber,
-      panNumber,
-      userImage,
-    } = req.body;
-    const query =
-      "INSERT INTO users (name, email, phone_number, login_pin, date_of_birth, aadhaar_number, pan_number, user_image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
-    const values = [
-      name,
-      email,
-      phoneNumber,
-      loginPIN,
-      dateOfBirth,
-      aadhaarNumber,
-      panNumber,
-      userImage,
-    ];
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("Error creating user", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a newly created resource.
+     * @typedef {object} Resource
+     * @property {string} name - The name of the resource.
+     * @property {number} quantity - The quantity of the resource.
+     */
+    const resource = await Resource.create(req.body);
+    res.status(201).json(resource);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Read all users
-app.get("/users", async (req, res) => {
+app.get('/resources', async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM users");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error fetching users", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a collection of resources.
+     * @type {Array<Resource>}
+     */
+    const resources = await Resource.findAll();
+    res.status(200).json(resources);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Update a user
-app.put("/users/:id", async (req, res) => {
+app.get('/resources/:id', async (req, res) => {
   try {
-    const userId = req.params.id;
-    const {
-      name,
-      email,
-      phoneNumber,
-      loginPIN,
-      dateOfBirth,
-      aadhaarNumber,
-      panNumber,
-      userImage,
-    } = req.body;
-    const query =
-      "UPDATE users SET name=$1, email=$2, phone_number=$3, login_pin=$4, date_of_birth=$5, aadhaar_number=$6, pan_number=$7, user_image=$8 WHERE user_id=$9 RETURNING *";
-    const values = [
-      name,
-      email,
-      phoneNumber,
-      loginPIN,
-      dateOfBirth,
-      aadhaarNumber,
-      panNumber,
-      userImage,
-      userId,
-    ];
-    const result = await pool.query(query, values);
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error updating user", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a resource object.
+     * @typedef {Object} Resource
+     * @property {number} id - The ID of the resource.
+     * @property {string} name - The name of the resource.
+     * @property {string} description - The description of the resource.
+     */
+
+    /**
+     * Retrieves a resource by its ID.
+     * @param {number} id - The ID of the resource to retrieve.
+     * @returns {Promise<Resource>} A promise that resolves to the retrieved resource.
+     */
+    const resource = await Resource.findByPk(req.params.id);
+    if (resource) {
+      res.status(200).json(resource);
+    } else {
+      res.status(404).json({ error: 'Resource not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Delete a user
-app.delete("/users/:id", async (req, res) => {
+app.put('/resources/:id', async (req, res) => {
   try {
-    const userId = req.params.id;
-    const result = await pool.query("DELETE FROM users WHERE user_id=$1", [
-      userId,
-    ]);
-    res.json({ message: "User deleted successfully", result });
-  } catch (error) {
-    console.error("Error deleting user", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a resource.
+     * @typedef {Object} Resource
+     * @property {number} id - The ID of the resource.
+     * @property {string} name - The name of the resource.
+     * @property {string} description - The description of the resource.
+     */
+
+    /**
+     * Find a resource by its ID.
+     * @param {number} id - The ID of the resource to find.
+     * @returns {Promise<Resource>} A promise that resolves to the found resource.
+     */
+    const resource = await Resource.findByPk(req.params.id);
+    if (resource) {
+      await resource.update(req.body);
+      res.status(200).json(resource);
+    } else {
+      res.status(404).json({ error: 'Resource not found' });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Create a new DID
-app.post("/dids", async (req, res) => {
+app.delete('/resources/:id', async (req, res) => {
   try {
-    const { id, controller, didDocument } = req.body;
-    const query =
-      "INSERT INTO dids (id, controller, did_document, created, updated) VALUES ($1, $2, $3, NOW(), NOW()) RETURNING *";
-    const values = [id, controller, didDocument];
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("Error creating DID", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a resource.
+     * @typedef {Object} Resource
+     * @property {number} id - The ID of the resource.
+     * @property {string} name - The name of the resource.
+     * @property {string} description - The description of the resource.
+     */
+
+    /**
+     * Fetches a resource by its ID.
+     * @param {number} id - The ID of the resource to fetch.
+     * @returns {Promise<Resource>} A promise that resolves to the fetched resource.
+     */
+    const resource = await Resource.findByPk(req.params.id);
+    if (resource) {
+      await resource.destroy();
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'Resource not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Read all DIDs
-app.get("/dids", async (req, res) => {
+// CRUD Operations for Users
+app.post('/users', async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM dids");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error fetching DIDs", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a newly created user.
+     * @typedef {Object} User
+     * @property {string} name - The name of the user.
+     * @property {string} email - The email address of the user.
+     * @property {string} password - The password of the user.
+     */
+    const user = await User.create(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Update a DID
-app.put("/dids/:id", async (req, res) => {
+app.get('/users', async (req, res) => {
   try {
-    const didId = req.params.id;
-    const { controller, didDocument } = req.body;
-    const query =
-      "UPDATE dids SET controller=$1, did_document=$2, updated=NOW() WHERE id=$3 RETURNING *";
-    const values = [controller, didDocument, didId];
-    const result = await pool.query(query, values);
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error updating DID", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Fetches all users from the database.
+     *
+     * @returns {Array<User>} An array of user objects.
+     */
+    const users = await User.findAll();
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Delete a DID
-app.delete("/dids/:id", async (req, res) => {
+app.get('/users/:id', async (req, res) => {
   try {
-    const didId = req.params.id;
-    const result = await pool.query("DELETE FROM dids WHERE id=$1", [didId]);
-    res.json({ message: "DID deleted successfully", result });
-  } catch (error) {
-    console.error("Error deleting DID", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a user object.
+     * @typedef {Object} User
+     * @property {number} id - The ID of the user.
+     * @property {string} name - The name of the user.
+     * @property {string} email - The email of the user.
+     */
+    const user = await User.findByPk(req.params.id);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// CRUD operations for Resources
-
-// Create a new resource
-app.post("/resources", async (req, res) => {
+app.put('/users/:id', async (req, res) => {
   try {
-    const { resourceId, didId, payload } = req.body;
-    const query =
-      "INSERT INTO resources (resource_id, did_id, payload) VALUES ($1, $2, $3) RETURNING *";
-    const values = [resourceId, didId, payload];
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("Error creating resource", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a user object.
+     * @typedef {Object} User
+     * @property {number} id - The ID of the user.
+     * @property {string} name - The name of the user.
+     * @property {string} email - The email of the user.
+     */
+    const user = await User.findByPk(req.params.id);
+    if (user) {
+      await user.update(req.body);
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Read all resources
-app.get("/resources", async (req, res) => {
+app.delete('/users/:id', async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM resources");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error fetching resources", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a user object.
+     * @typedef {Object} User
+     * @property {number} id - The ID of the user.
+     * @property {string} name - The name of the user.
+     * @property {string} email - The email of the user.
+     */
+    const user = await User.findByPk(req.params.id);
+    if (user) {
+      await user.destroy();
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Update a resource
-app.put("/resources/:id", async (req, res) => {
+// CRUD Operations for DIDs
+app.post('/dids', async (req, res) => {
   try {
-    const resourceId = req.params.id;
-    const { didId, payload } = req.body;
-    const query =
-      "UPDATE resources SET did_id=$1, payload=$2 WHERE resource_id=$3 RETURNING *";
-    const values = [didId, payload, resourceId];
-    const result = await pool.query(query, values);
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error updating resource", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents the created DID.
+     * @type {DID}
+     */
+    const did = await DID.create(req.body);
+    res.status(201).json(did);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Delete a resource
-app.delete("/resources/:id", async (req, res) => {
+app.get('/dids', async (req, res) => {
   try {
-    const resourceId = req.params.id;
-    const result = await pool.query(
-      "DELETE FROM resources WHERE resource_id=$1",
-      [resourceId]
-    );
-    res.json({ message: "Resource deleted successfully", result });
-  } catch (error) {
-    console.error("Error deleting resource", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-// CRUD operations for Documents
-
-// Create a new document
-app.post("/documents", async (req, res) => {
-  try {
-    const { ownerId, content } = req.body;
-    const query =
-      "INSERT INTO documents (owner_id, content, created, updated) VALUES ($1, $2, NOW(), NOW()) RETURNING *";
-    const values = [ownerId, content];
-    const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
-  } catch (error) {
-    console.error("Error creating document", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Array of DID objects.
+     * @type {Array<DID>}
+     */
+    const dids = await DID.findAll();
+    res.status(200).json(dids);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Read all documents
-app.get("/documents", async (req, res) => {
+app.get('/dids/:id', async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM documents");
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error fetching documents", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a DID (Decentralized Identifier).
+     * @typedef {Object} DID
+     * @property {number} id - The ID of the DID.
+     * @property {string} value - The value of the DID.
+     */
+    const did = await DID.findByPk(req.params.id);
+    if (did) {
+      res.status(200).json(did);
+    } else {
+      res.status(404).json({ error: 'DID not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Update a document
-app.put("/documents/:id", async (req, res) => {
+app.put('/dids/:id', async (req, res) => {
   try {
-    const documentId = req.params.id;
-    const { content } = req.body;
-    const query =
-      "UPDATE documents SET content=$1, updated=NOW() WHERE document_id=$2 RETURNING *";
-    const values = [content, documentId];
-    const result = await pool.query(query, values);
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error updating document", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a DID (Decentralized Identifier).
+     * @typedef {Object} DID
+     * @property {number} id - The ID of the DID.
+     * @property {string} value - The value of the DID.
+     */
+    const did = await DID.findByPk(req.params.id);
+    if (did) {
+      await did.update(req.body);
+      res.status(200).json(did);
+    } else {
+      res.status(404).json({ error: 'DID not found' });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Delete a document
-app.delete("/documents/:id", async (req, res) => {
+app.delete('/dids/:id', async (req, res) => {
   try {
-    const documentId = req.params.id;
-    const result = await pool.query(
-      "DELETE FROM documents WHERE document_id=$1",
-      [documentId]
-    );
-    res.json({ message: "Document deleted successfully", result });
-  } catch (error) {
-    console.error("Error deleting document", error);
-    res.status(500).json({ error: "Internal server error" });
+    /**
+     * Represents a DID (Decentralized Identifier).
+     * @typedef {Object} DID
+     * @property {number} id - The ID of the DID.
+     * @property {string} value - The value of the DID.
+     */
+    const did = await DID.findByPk(req.params.id);
+    if (did) {
+      await did.destroy();
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'DID not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// CRUD Operations for DocumentTransactions
+app.post('/documenttransactions', async (req, res) => {
+  try {
+    /**
+     * Represents a document transaction.
+     * @typedef {Object} DocumentTransaction
+     * @property {string} id - The ID of the transaction.
+     * @property {string} body - The body of the transaction.
+     * @property {Date} createdAt - The creation date of the transaction.
+     */
+
+    /**
+     * Creates a new document transaction.
+     * @param {Object} body - The body of the transaction.
+     * @returns {Promise<DocumentTransaction>} A promise that resolves to the created transaction.
+     */
+    const transaction = await DocumentTransaction.create(req.body);
+    res.status(201).json(transaction);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
+
+app.get('/documenttransactions', async (req, res) => {
+  try {
+    /**
+     * Represents a collection of document transactions.
+     * @type {Array<DocumentTransaction>}
+     */
+    const transactions = await DocumentTransaction.findAll();
+    res.status(200).json(transactions);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/documenttransactions/:id', async (req, res) => {
+  try {
+    /**
+     * Represents a document transaction.
+     * @typedef {Object} DocumentTransaction
+     * @property {number} id - The ID of the transaction.
+     * @property {string} name - The name of the transaction.
+     * @property {string} description - The description of the transaction.
+     */
+
+    /**
+     * Retrieves a document transaction by its ID.
+     * @param {number} id - The ID of the transaction to retrieve.
+     * @returns {Promise<DocumentTransaction|null>} A promise that resolves to the retrieved transaction, or null if not found.
+     */
+    const transaction = await DocumentTransaction.findByPk(req.params.id);
+    if (transaction) {
+      res.status(200).json(transaction);
+    } else {
+      res.status(404).json({ error: 'DocumentTransaction not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/documenttransactions/:id', async (req, res) => {
+  try {
+    /**
+     * Represents a document transaction.
+     * @typedef {Object} DocumentTransaction
+     * @property {number} id - The ID of the transaction.
+     * @property {string} name - The name of the transaction.
+     * @property {string} description - The description of the transaction.
+     */
+
+    /**
+     * Retrieves a document transaction by its ID.
+     * @param {number} id - The ID of the transaction to retrieve.
+     * @returns {Promise<DocumentTransaction|null>} A promise that resolves to the retrieved transaction, or null if not found.
+     */
+    const transaction = await DocumentTransaction.findByPk(req.params.id);
+    if (transaction) {
+      await transaction.update(req.body);
+      res.status(200).json(transaction);
+    } else {
+      res.status(404).json({ error: 'DocumentTransaction not found' });
+    }
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.delete('/documenttransactions/:id', async (req, res) => {
+  try {
+    /**
+     * Represents a document transaction.
+     * @typedef {Object} DocumentTransaction
+     * @property {number} id - The ID of the transaction.
+     * @property {string} name - The name of the transaction.
+     * @property {string} description - The description of the transaction.
+     */
+
+    /**
+     * Retrieves a document transaction by its ID.
+     * @param {number} id - The ID of the transaction to retrieve.
+     * @returns {Promise<DocumentTransaction|null>} A promise that resolves to the retrieved transaction, or null if not found.
+     */
+    const transaction = await DocumentTransaction.findByPk(req.params.id);
+    if (transaction) {
+      await transaction.destroy();
+      res.status(204).send();
+    } else {
+      res.status(404).json({ error: 'DocumentTransaction not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = app;
