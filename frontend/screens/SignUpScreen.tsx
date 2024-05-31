@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { OTPVerificationScreenProps } from '../types/navigationTypes';
 
 const SignUpScreen: React.FC = () => {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation<OTPVerificationScreenProps['navigation']>();
 
   const handleNextPress = () => {
-    navigation.navigate('OTPVerification'); 
+    navigation.navigate('OTPVerification');
   };
 
   return (

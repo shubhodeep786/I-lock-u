@@ -1,19 +1,46 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { UserHomeScreenProps } from '../types/navigationTypes';
 
 const ConfirmPinScreen: React.FC = () => {
   const [pin, setPin] = useState<string[]>(['', '', '', '', '', '']);
+  // const [userPin, setUserPin] = useState<string | null>(null);
   const inputRefs = useRef<Array<TextInput | null>>([]);
   const navigation = useNavigation<UserHomeScreenProps['navigation']>();
 
+  // useEffect(() => {
+  //   // Fetch user data and set the user pin
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await fetch('https://yourapi.com/user'); // Replace with your API endpoint
+  //       const data = await response.json();
+  //       if (response.ok) {
+  //         setUserPin(data.pin); // Assuming 'data.pin' contains the user's PIN
+  //       } else {
+  //         Alert.alert('Error', 'Failed to fetch user data');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching user data:', error);
+  //       Alert.alert('Error', 'Something went wrong. Please try again.');
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
   const handleNextPress = () => {
-    if (pin.join('').length === 6) {
-      navigation.navigate('UserHome');
-    } else {
-      alert('Please enter a 6-digit PIN.');
-    }
+    navigation.navigate('UserHome');
+    // const enteredPin = pin.join('');
+    // if (enteredPin.length === 6) {
+    //   if (enteredPin === userPin) {
+    //     navigation.navigate('UserHome');
+    //   } else {
+    //     Alert.alert('Invalid PIN', 'The entered PIN is incorrect. Please try again.');
+    //   }
+    // } else {
+    //   alert('Please enter a 6-digit PIN.');
+    // }
   };
 
   const handlePinChange = (index: number, value: string) => {
@@ -26,7 +53,7 @@ const ConfirmPinScreen: React.FC = () => {
     }
 
     if (newPin.join('').length === 6) {
-      navigation.navigate('UserHome');
+      handleNextPress();
     }
   };
 

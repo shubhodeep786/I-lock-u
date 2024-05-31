@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, Text, Image, TouchableOpacity, Dimensions, Modal } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, StyleSheet, Text, Image, TouchableOpacity, Dimensions, Modal, Alert } from 'react-native';
+import { UploadDocumentsScreenNavigationProp, ReciveDocumentProps, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
+import { useNavigation } from '@react-navigation/native';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -65,7 +67,68 @@ const MenuButton: React.FC<MenuButtonProps> = ({ title, onPress }) => {
 };
 
 const ProfileScreen: React.FC = () => {
+  const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
+const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
+const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
+const NotificationScreenProps = useNavigation<NotificationScreenProps['navigation']>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [userData, setUserData] = useState({
+    userName: 'Kundan Chouhan',
+    userId: '6294530017',
+    userImage: { uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' },
+  });
+  
+  const UserHomeButtonClicked = () => {
+    HomeScreenNavigation.navigate('UserHome');
+  };
+  
+  const DocumentsButtonClicked = () => {
+    DocumentScreenNavigation.navigate('Documents');
+  };
+  
+  const UploadDocumentButtonClicked = () => {
+    uploadDocumentScreenNavigation.navigate('UploadDocuments');
+  };
+  
+  const ProfileButtonClicked = () => {
+    ProfileScreenNavigation.navigate('Profile');
+  };
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('https://yourapi.com/user'); // Replace with your API endpoint
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+          const data = await response.json();
+          if (response.ok) {
+            setUserData({
+              userName: data.userName,
+              userId: data.userId,
+              userImage: { uri: data.userImage },
+            });
+          } else {
+            throw new Error('Failed to fetch user data');
+          }
+        } else {
+          throw new Error('Received non-JSON response');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+        // Use hardcoded data as a fallback
+        setUserData({
+          userName: 'Kundan Chouhan',
+          userId: '6294530017',
+          userImage: { uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' },
+        });
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const openDownloadModal = () => {
     setModalVisible(true);
@@ -75,25 +138,14 @@ const ProfileScreen: React.FC = () => {
     setModalVisible(false);
   };
 
-  function DocumentsButtonClicked(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
-
-  function UploadDocumentButtonClicked(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
-
-  function ProfileButtonClicked(event: GestureResponderEvent): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <>
       <ScrollView style={styles.container}>
         <ProfileHeader
-          userName="Kundan Chouhan"
-          userId="6294530017"
-          userImage={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' }}
+          userName={userData.userName}
+          userId={userData.userId}
+          userImage={userData.userImage}
         />
         <View style={styles.menuContainer}>
           <MenuButton title="Settings" onPress={() => { }} />
@@ -106,7 +158,7 @@ const ProfileScreen: React.FC = () => {
       <View style={styles.bottomNavbar}>
         <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <HomeIcon />
-          <Text style={styles.navbarButtonText}>Home</Text>
+          <Text style={styles.navbarButtonText} onPress={UserHomeButtonClicked}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <DocumentIcon />
@@ -149,7 +201,6 @@ const ProfileScreen: React.FC = () => {
     </>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

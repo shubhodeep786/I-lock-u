@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView, Dimensions, GestureResponderEvent } from 'react-native';
 import SearchBar from './Components/SearchBar';
-
-const screenWidth = Dimensions.get('window').width;
+import { useNavigation } from '@react-navigation/native';
+import { UploadDocumentsScreenNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
 
 interface ActionCardProps {
   title: string;
@@ -10,6 +10,9 @@ interface ActionCardProps {
   onPress: () => void;
   large?: boolean;
 }
+
+
+
 
 const ActionCard: React.FC<ActionCardProps> = ({ title, icon, onPress, large = false }) => (
   <TouchableOpacity style={[styles.actionCard, large && styles.largeCard]} onPress={onPress}>
@@ -51,7 +54,26 @@ const UploadDocumentsScreen: React.FC = () => {
   const [importOptionsModalVisible, setImportOptionsModalVisible] = useState(false);
   const [documentType, setDocumentType] = useState('');
   const [selectedType, setSelectedType] = useState<string | null>(null);
+  const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+  const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
+  const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
+  const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
 
+  const UserHomeButtonClicked = () => {
+    HomeScreenNavigation.navigate('UserHome');
+  };
+
+  const DocumentsButtonClicked = () => {
+    DocumentScreenNavigation.navigate('Documents');
+  };
+
+  const UploadDocumentButtonClicked = () => {
+    uploadDocumentScreenNavigation.navigate('UploadDocuments');
+  };
+
+  const ProfileButtonClicked = () => {
+    ProfileScreenNavigation.navigate('Profile');
+  };
   const openDocumentTypeModal = (type: string) => {
     setDocumentType(type);
     setDocumentTypeModalVisible(true);
@@ -135,18 +157,6 @@ const UploadDocumentsScreen: React.FC = () => {
     </Modal>
   );
 
-  const ProfileButtonClicked = (event: GestureResponderEvent) => {
-    console.log("Profile button clicked");
-  };
-
-  const UploadDocumentButtonClicked = (event: GestureResponderEvent) => {
-    console.log("Upload button clicked");
-  };
-
-  const DocumentsButtonClicked = (event: GestureResponderEvent) => {
-    console.log("Documents button clicked");
-  };
-
   return (
     <View style={styles.container}>
       <SearchBar />
@@ -171,7 +181,7 @@ const UploadDocumentsScreen: React.FC = () => {
       </View>
       {/* Bottom Navbar */}
       <View style={styles.bottomNavbar}>
-        <TouchableOpacity style={styles.navbarButton}>
+        <TouchableOpacity style={styles.navbarButton} onPress={UserHomeButtonClicked}>
           <HomeIcon />
           <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>

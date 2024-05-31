@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { UserHomeScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,8 +11,41 @@ const CreateProfileScreen: React.FC = () => {
   const [panNumber, setPanNumber] = useState('');
   const navigation = useNavigation<UserHomeScreenProps['navigation']>();
 
-  const handleNextPress = () => {
+  const handleNextPress = async () => {
     navigation.navigate('UserHome');
+    // const userProfile = {
+    //   name,
+    //   email,
+    //   dateOfBirth,
+    //   aadharNumber,
+    //   panNumber,
+    // };
+
+    // try {
+    //   const response = await fetch('https://yourapi.com/create-profile', { // Replace with your API endpoint
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(userProfile),
+    //   });
+
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     // Assuming the API returns a success status and message
+    //     if (data.success) {
+    //       navigation.navigate('UserHome');
+    //     } else {
+    //       Alert.alert('Error', data.message || 'Failed to create profile. Please try again.');
+    //     }
+    //   } else {
+    //     const errorData = await response.json();
+    //     Alert.alert('Error', errorData.message || 'Failed to create profile. Please try again.');
+    //   }
+    // } catch (error) {
+    //   console.error('Error creating profile:', error);
+    //   Alert.alert('Error', 'An error occurred. Please try again.');
+    // }
   };
 
   return (
@@ -68,7 +101,6 @@ const CreateProfileScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

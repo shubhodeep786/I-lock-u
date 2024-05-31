@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   ListRenderItem,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 
 interface Document {
@@ -21,37 +22,34 @@ interface Document {
   uploadedDate: string;
 }
 
-const documentsData: Document[] = [
-  {
-    id: '1',
-    name: 'Kundan Chouhan',
-    type: 'Aadhar Card',
-    image: 'https://example.com/aadhar.png',
-    uploadedDate: 'Jan 1, 2020',
-  },
-  {
-    id: '2',
-    name: 'Kundan Chouhan',
-    type: 'PAN Card',
-    image: 'https://example.com/pan.png',
-    uploadedDate: 'Jan 1, 2020',
-  },
-  {
-    id: '3',
-    name: 'Kundan Chouhan',
-    type: 'Driving Licence',
-    image: 'https://example.com/license.png',
-    uploadedDate: 'Jan 1, 2020',
-  },
-];
-
 const SelectDocumentsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [documentsData, setDocumentsData] = useState<Document[]>([]);
   const [selectedDocuments, setSelectedDocuments] = useState<{ [key: string]: boolean }>({});
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [expiryDate, setExpiryDate] = useState<string>('Select');
+
+  useEffect(() => {
+    // Fetch documents data from API
+    const fetchDocumentsData = async () => {
+      try {
+        const response = await fetch('https://yourapi.com/documents'); // Replace with your API endpoint
+        const data = await response.json();
+        if (response.ok) {
+          setDocumentsData(data);
+        } else {
+          Alert.alert('Error', 'Failed to fetch documents data');
+        }
+      } catch (error) {
+        console.error('Error fetching documents data:', error);
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+      }
+    };
+
+    fetchDocumentsData();
+  }, []);
 
   const toggleSelectAll = () => {
     const newSelectAll = !selectAll;
@@ -73,6 +71,33 @@ const SelectDocumentsPage: React.FC = () => {
     if (!selectedDocuments[doc.id]) {
       setSelectedDocument(doc);
       setModalVisible(true);
+    }
+  };
+
+  const handleSetButtonPress = async () => {
+    if (selectedDocument) {
+      try {
+        const response = await fetch('https://yourapi.com/setExpiry', { // Replace with your API endpoint
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            documentId: selectedDocument.id,
+            expiryDate: expiryDate,
+          }),
+        });
+
+        if (response.ok) {
+          setModalVisible(false);
+          Alert.alert('Success', 'Expiry date set successfully');
+        } else {
+          Alert.alert('Error', 'Failed to set expiry date');
+        }
+      } catch (error) {
+        console.error('Error setting expiry date:', error);
+        Alert.alert('Error', 'Something went wrong. Please try again.');
+      }
     }
   };
 
@@ -142,9 +167,12 @@ const SelectDocumentsPage: React.FC = () => {
               <View style={styles.dropdownContainer}>
                 <Text style={styles.dropdownText}>{expiryDate}</Text>
                 <View style={styles.dropdownMenu}>
+                <Text style={styles.documentName}>{item.name}</Text>
+          <Text style={styles.documentType}>{item.type}</Text>
+          <Text style={styles.uploadedDate}>Uploaded {item.uploadedDate}</Text>
                 </View>
               </View>
-              <TouchableOpacity style={styles.setButton} onPress={() => setModalVisible(false)}>
+              <TouchableOpacity style={styles.setButton} onPress={handleSetButtonPress}>
                 <Text style={styles.setButtonText}>Set</Text>
               </TouchableOpacity>
             </View>

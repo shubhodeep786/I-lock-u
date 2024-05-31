@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import SearchBar from './Components/SearchBar';
+import { UploadDocumentsScreenNavigationProp, ReciveDocumentProps, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeIcon = () => (
   <Image
@@ -38,17 +40,28 @@ const documentData = [
 ];
 
 const DocumentsScreen: React.FC = () => {
-  const DocumentsButtonClicked = () => {
-    console.log("Documents button clicked");
-  };
+  const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
+const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
+const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
 
-  const UploadDocumentButtonClicked = () => {
-    console.log("Upload button clicked");
-  };
+const UserHomeButtonClicked = () => {
+  HomeScreenNavigation.navigate('UserHome');
+};
 
-  const ProfileButtonClicked = () => {
-    console.log("Profile button clicked");
-  };
+const DocumentsButtonClicked = () => {
+  DocumentScreenNavigation.navigate('Documents');
+};
+
+const UploadDocumentButtonClicked = () => {
+  uploadDocumentScreenNavigation.navigate('UploadDocuments');
+};
+
+const ProfileButtonClicked = () => {
+  ProfileScreenNavigation.navigate('Profile');
+};
+
 
   return (
     <View style={styles.container}>
@@ -67,7 +80,7 @@ const DocumentsScreen: React.FC = () => {
       <View style={styles.bottomNavbar}>
         <TouchableOpacity style={styles.navbarButton}>
           <HomeIcon />
-          <Text style={styles.navbarButtonText}>Home</Text>
+          <Text style={styles.navbarButtonText}  onPress={UserHomeButtonClicked}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <DocumentIcon />
