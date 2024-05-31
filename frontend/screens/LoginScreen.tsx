@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LoginScreenProps } from '../types/navigationTypes'; 
+import { LoginScreenProps } from '../types/navigationTypes';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -21,10 +21,10 @@ const LoginScreen: React.FC = () => {
     //       phoneNumber: phoneNumber,
     //     }),
     //   });
-  
+
     //   const responseText = await response.text();
     //   console.log('Response text:', responseText);
-  
+
     //   try {
     //     const data = JSON.parse(responseText);
     //     if (response.ok) {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: 20, // Adjust this value as needed to add padding from the bottom
+    bottom: 20, 
   },
   buttonText: {
     color: '#FFFFFF',

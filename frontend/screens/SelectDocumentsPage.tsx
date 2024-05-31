@@ -77,7 +77,7 @@ const SelectDocumentsPage: React.FC = () => {
   const handleSetButtonPress = async () => {
     if (selectedDocument) {
       try {
-        const response = await fetch('https://yourapi.com/setExpiry', { // Replace with your API endpoint
+        const response = await fetch('https://yourapi.com/setExpiry', { 
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -167,9 +167,9 @@ const SelectDocumentsPage: React.FC = () => {
               <View style={styles.dropdownContainer}>
                 <Text style={styles.dropdownText}>{expiryDate}</Text>
                 <View style={styles.dropdownMenu}>
-                <Text style={styles.documentName}>{item.name}</Text>
-          <Text style={styles.documentType}>{item.type}</Text>
-          <Text style={styles.uploadedDate}>Uploaded {item.uploadedDate}</Text>
+                  <Text style={styles.documentName}>{item.name}</Text>
+                  <Text style={styles.documentType}>{item.type}</Text>
+                  <Text style={styles.uploadedDate}>Uploaded {item.uploadedDate}</Text>
                 </View>
               </View>
               <TouchableOpacity style={styles.setButton} onPress={handleSetButtonPress}>

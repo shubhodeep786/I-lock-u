@@ -47,7 +47,7 @@ const NotificationsScreen: React.FC = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch('https://yourapi.com/notifications'); // Replace with your API endpoint
+        const response = await fetch('https://yourapi.com/notifications');
         if (response.ok) {
           const data: Notification[] = await response.json();
           setNotifications(data);

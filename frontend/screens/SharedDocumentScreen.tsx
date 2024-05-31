@@ -4,7 +4,7 @@ import DocumentItem from './Components/DocumentItem';
 
 const documents = [
     { id: '1', title: 'Aadhar Card', uploadDate: 'Uploaded on 1 Jan 2020', expiryDate: '14 Feb 2020', sharedTo: 'Shared to 🌐' },
-    // Add more documents here...
+
 ];
 
 const SharedDocumentScreen: React.FC = () => {

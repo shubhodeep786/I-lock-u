@@ -68,34 +68,34 @@ const MenuButton: React.FC<MenuButtonProps> = ({ title, onPress }) => {
 
 const ProfileScreen: React.FC = () => {
   const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
-const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
-const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
-const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
-const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
-const NotificationScreenProps = useNavigation<NotificationScreenProps['navigation']>();
+  const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
+  const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+  const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+  const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
+  const NotificationScreenProps = useNavigation<NotificationScreenProps['navigation']>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [userData, setUserData] = useState({
     userName: 'Kundan Chouhan',
     userId: '6294530017',
     userImage: { uri: 'https://static.vecteezy.com/system/resources/previews/000/574/512/original/vector-sign-of-user-icon.jpg' },
   });
-  
+
   const UserHomeButtonClicked = () => {
     HomeScreenNavigation.navigate('UserHome');
   };
-  
+
   const DocumentsButtonClicked = () => {
     DocumentScreenNavigation.navigate('Documents');
   };
-  
+
   const UploadDocumentButtonClicked = () => {
     uploadDocumentScreenNavigation.navigate('UploadDocuments');
   };
-  
+
   const ProfileButtonClicked = () => {
     ProfileScreenNavigation.navigate('Profile');
   };
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {

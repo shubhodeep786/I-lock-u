@@ -21,7 +21,7 @@ const ConfirmPinScreen: React.FC = () => {
       <Text style={styles.subheader}>Enter the pin you set</Text>
       <View style={styles.pinContainer}>{renderPinCircles()}</View>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}  onPress={handleNextPress}>Next</Text>
+        <Text style={styles.buttonText} onPress={handleNextPress}>Next</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

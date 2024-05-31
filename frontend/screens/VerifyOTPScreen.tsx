@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { SetPinScreenProps } from '../types/navigationTypes'; // Adjust the path as necessary
+import { SetPinScreenProps } from '../types/navigationTypes'; 
 
 const VerifyOTPScreen: React.FC = () => {
   const [OTP, setOTP] = useState<Array<string>>(['', '', '', '']);

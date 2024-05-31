@@ -41,26 +41,26 @@ const documentData = [
 
 const DocumentsScreen: React.FC = () => {
   const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
-const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
-const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
-const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
-const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
+  const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
+  const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
+  const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
+  const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
 
-const UserHomeButtonClicked = () => {
-  HomeScreenNavigation.navigate('UserHome');
-};
+  const UserHomeButtonClicked = () => {
+    HomeScreenNavigation.navigate('UserHome');
+  };
 
-const DocumentsButtonClicked = () => {
-  DocumentScreenNavigation.navigate('Documents');
-};
+  const DocumentsButtonClicked = () => {
+    DocumentScreenNavigation.navigate('Documents');
+  };
 
-const UploadDocumentButtonClicked = () => {
-  uploadDocumentScreenNavigation.navigate('UploadDocuments');
-};
+  const UploadDocumentButtonClicked = () => {
+    uploadDocumentScreenNavigation.navigate('UploadDocuments');
+  };
 
-const ProfileButtonClicked = () => {
-  ProfileScreenNavigation.navigate('Profile');
-};
+  const ProfileButtonClicked = () => {
+    ProfileScreenNavigation.navigate('Profile');
+  };
 
 
   return (
@@ -80,7 +80,7 @@ const ProfileButtonClicked = () => {
       <View style={styles.bottomNavbar}>
         <TouchableOpacity style={styles.navbarButton}>
           <HomeIcon />
-          <Text style={styles.navbarButtonText}  onPress={UserHomeButtonClicked}>Home</Text>
+          <Text style={styles.navbarButtonText} onPress={UserHomeButtonClicked}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
           <DocumentIcon />

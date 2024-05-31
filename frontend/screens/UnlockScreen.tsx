@@ -1,22 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { PinConfirmationScreenProps } from '../types/navigationTypes'; 
+import { PinConfirmationScreenProps } from '../types/navigationTypes';
 import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 const UnlockScreen: React.FC = () => {
   const navigation = useNavigation<PinConfirmationScreenProps['navigation']>();
 
-  // Placeholder function for handling fingerprint unlock
   const handleFingerprintUnlock = () => {
     console.log('Fingerprint unlock attempted');
-    // Integrate actual fingerprint unlock logic here
   };
 
-  // Placeholder function for switching to PIN unlock
   const handleUsePin = () => {
     console.log('Switch to PIN unlock');
     navigation.navigate('PinConfirmation');
-    // Navigate to PIN unlock screen or show PIN input
   };
 
   return (

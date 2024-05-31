@@ -6,7 +6,7 @@ import { CreateProfileScreenNavigationProp } from '../types/navigationTypes'; //
 
 const SetBiometricScreen: React.FC = () => {
   const navigation = useNavigation<CreateProfileScreenNavigationProp['navigation']>();
-  
+
   const handleNextPress = () => {
     navigation.navigate('CreateProfile');
   };
