@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-// import { QRCode } from 'react-native-custom-qr-codes-expo';
 
 const ReceiveDocumentsPage = ({ navigation }) => {
   const handleClose = () => {

@@ -23,8 +23,15 @@ export type RootStackParamList = {
   SendingScreen: undefined;
   ReciveDocument: undefined;
   Notification: undefined;
+  IdentityDocuments: undefined;
+  FinancialAssetDocument: undefined;
+  MedicalDocument: undefined;
+  TravelDocument: undefined;
 };
-
+export type FinancialAssetDocumentScreen = NativeStackScreenProps<RootStackParamList, 'FinancialAssetDocument'>;
+export type MedicalDocumentScreen = NativeStackScreenProps<RootStackParamList, 'MedicalDocument'>;
+export type TravelDocumentScreen = NativeStackScreenProps<RootStackParamList, 'TravelDocument'>;
+export type IdentityDocumentsScreen = NativeStackScreenProps<RootStackParamList, 'IdentityDocuments'>;
 export type ReciveDocumentProps = NativeStackScreenProps<RootStackParamList, 'ReciveDocument'>;
 export type NotificationScreenProps = NativeStackScreenProps<RootStackParamList, 'Notification'>;
 export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;

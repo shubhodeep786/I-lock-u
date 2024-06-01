@@ -22,6 +22,10 @@ import QRCodePage from './screens/QRCodePage';
 import SendingScreen from './screens/SendingScreen';
 import IdentityDocumentsScreen from './screens/IdentityDocumentsScreen';
 import ReceiveDocumentsPage from './screens/ReceiveDocumentsPage'
+import FinancialAssetDocumentsScreen from './screens/FinancialAssetDocumentScreen';
+import MedicalDocumentsScreen from './screens/MedicalDocumentScreen';
+import TravelDocumentsScreen from './screens/TravelDocumentScreen';
+
 const Stack = createNativeStackNavigator();
 
 const App: React.FC = () => {
@@ -49,8 +53,11 @@ const App: React.FC = () => {
         <Stack.Screen name="SelectDocuments" component={SelectDocumentsPage} />
         <Stack.Screen name="QRCode" component={QRCodePage} />
         <Stack.Screen name="SendingScreen" component={SendingScreen} />
+        <Stack.Screen name="ReciveDocument" component={ReceiveDocumentsPage} />
+        <Stack.Screen name="TravelDocuments" component={TravelDocumentsScreen} />
+        <Stack.Screen name="MedicalDocuments" component={MedicalDocumentsScreen} />
+        <Stack.Screen name="FinancialAssetDocuments" component={FinancialAssetDocumentsScreen} />
         <Stack.Screen name="IdentityDocuments" component={IdentityDocumentsScreen} />
-        <Stack.Screen name="ReciveDocument" component={ReceiveDocumentsPage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

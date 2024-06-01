@@ -24,7 +24,7 @@ const DocumentCard: React.FC<{ type: string, name: string, date: string, imageUr
   );
 };
 
-const IdentityDocumentsScreen: React.FC = () => {
+const MedicalDocumentScreen: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <SearchBar />
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default IdentityDocumentsScreen;
+export default MedicalDocumentScreen;

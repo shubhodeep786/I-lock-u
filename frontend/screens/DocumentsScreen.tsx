@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import SearchBar from './Components/SearchBar';
-import { UploadDocumentsScreenNavigationProp, ReciveDocumentProps, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
 import { useNavigation } from '@react-navigation/native';
+import { UploadDocumentsScreenNavigationProp, ReciveDocumentProps, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
 
 const HomeIcon = () => (
   <Image
@@ -32,37 +32,43 @@ const ProfileIcon = () => (
   />
 );
 
-
 const documentData = [
-  { title: 'Identity Documents', imageUrl: 'https://example.com/identity.png' },
-  { title: 'Financial and Asset Documents', imageUrl: 'https://example.com/financial.png' },
-  { title: 'Travel Documents', imageUrl: 'https://example.com/travel.png' },
-  { title: 'Medical Documents', imageUrl: 'https://example.com/medical.png' },
+  { title: 'Identity Documents', imageUrl: 'https://example.com/identity.png', navigation: 'IdentityDocuments' },
+  { title: 'Financial and Asset Documents', imageUrl: 'https://example.com/financial.png', navigation: 'FinancialAssetDocuments' },
+  { title: 'Travel Documents', imageUrl: 'https://example.com/travel.png', navigation: 'TravelDocuments' },
+  { title: 'Medical Documents', imageUrl: 'https://example.com/medical.png', navigation: 'MedicalDocuments' },
 ];
 
 const DocumentsScreen: React.FC = () => {
-  const uploadDocumentScreenNavigation = useNavigation<UploadDocumentsScreenNavigationProp['navigation']>();
-  const DocumentScreenNavigation = useNavigation<DocumentsScreenNavigationProp['navigation']>();
-  const SharedDocumentScreenNavigation = useNavigation<SharedDocumentsScreenNavigationProp['navigation']>();
-  const ProfileScreenNavigation = useNavigation<ProfileScreenNavigationProp['navigation']>();
-  const HomeScreenNavigation = useNavigation<HomeScreenNavigationProp['navigation']>();
+  const navigation = useNavigation();
+  const uploadDocumentsNavigation = useNavigation<UploadDocumentsScreenNavigationProp>();
+  const documentsNavigation = useNavigation<DocumentsScreenNavigationProp>();
+  const sharedDocumentsNavigation = useNavigation<SharedDocumentsScreenNavigationProp>();
+  const profileNavigation = useNavigation<ProfileScreenNavigationProp>();
+  const homeNavigation = useNavigation<HomeScreenNavigationProp>();
+  const identityDocumentsNavigation = useNavigation<DocumentsScreenNavigationProp>();
+  const travelDocumentsNavigation = useNavigation<SelectDocumentsPageNavigationProp>();
+  const medicalDocumentsNavigation = useNavigation<ReciveDocumentProps>();
+  const financialAssetDocumentsNavigation = useNavigation<NotificationScreenProps>();
 
-  const UserHomeButtonClicked = () => {
-    HomeScreenNavigation.navigate('UserHome');
+  const handleDocumentPress = (screenName: string) => {
+    switch (screenName) {
+      case 'IdentityDocuments':
+        identityDocumentsNavigation.navigate('IdentityDocuments');
+        break;
+      case 'FinancialAssetDocuments':
+        financialAssetDocumentsNavigation.navigate('FinancialAssetDocuments');
+        break;
+      case 'TravelDocuments':
+        travelDocumentsNavigation.navigate('TravelDocuments');
+        break;
+      case 'MedicalDocuments':
+        medicalDocumentsNavigation.navigate('MedicalDocuments');
+        break;
+      default:
+        break;
+    }
   };
-
-  const DocumentsButtonClicked = () => {
-    DocumentScreenNavigation.navigate('Documents');
-  };
-
-  const UploadDocumentButtonClicked = () => {
-    uploadDocumentScreenNavigation.navigate('UploadDocuments');
-  };
-
-  const ProfileButtonClicked = () => {
-    ProfileScreenNavigation.navigate('Profile');
-  };
-
 
   return (
     <View style={styles.container}>
@@ -71,7 +77,7 @@ const DocumentsScreen: React.FC = () => {
         <Text style={styles.headerText}>My Documents</Text>
         <View style={styles.grid}>
           {documentData.map((doc, index) => (
-            <TouchableOpacity key={index} style={styles.card}>
+            <TouchableOpacity key={index} style={styles.card} onPress={() => handleDocumentPress(doc.navigation)}>
               {doc.imageUrl && <Image source={{ uri: doc.imageUrl }} style={styles.documentIcon} />}
               <Text style={styles.text}>{doc.title}</Text>
             </TouchableOpacity>
@@ -79,19 +85,19 @@ const DocumentsScreen: React.FC = () => {
         </View>
       </ScrollView>
       <View style={styles.bottomNavbar}>
-        <TouchableOpacity style={styles.navbarButton}>
+        <TouchableOpacity style={styles.navbarButton} onPress={() => homeNavigation.navigate('Home')}>
           <HomeIcon />
-          <Text style={styles.navbarButtonText} onPress={UserHomeButtonClicked}>Home</Text>
+          <Text style={styles.navbarButtonText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={DocumentsButtonClicked}>
+        <TouchableOpacity style={styles.navbarButton} onPress={() => documentsNavigation.navigate('Documents')}>
           <DocumentIcon />
           <Text style={styles.navbarButtonText}>Documents</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={UploadDocumentButtonClicked}>
+        <TouchableOpacity style={styles.navbarButton} onPress={() => uploadDocumentsNavigation.navigate('UploadDocuments')}>
           <UploadIcon />
           <Text style={styles.navbarButtonText}>Upload</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navbarButton} onPress={ProfileButtonClicked}>
+        <TouchableOpacity style={styles.navbarButton} onPress={() => profileNavigation.navigate('Profile')}>
           <ProfileIcon />
           <Text style={styles.navbarButtonText}>Profile</Text>
         </TouchableOpacity>
@@ -99,7 +105,6 @@ const DocumentsScreen: React.FC = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
