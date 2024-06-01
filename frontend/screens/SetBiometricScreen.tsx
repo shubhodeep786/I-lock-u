@@ -16,7 +16,7 @@ const SetBiometricScreen: React.FC = () => {
       <Text style={styles.title}>Set Biometric</Text>
       <Text style={styles.subtitle}>Touch the Fingerprint Sensor to Set Biometric</Text>
       <View style={styles.iconContainer}>
-        <Image source={{ uri: 'https://example.com/fingerprint-icon.png' }} style={styles.icon} />
+        <Image source={{ uri: 'https://th.bing.com/th/id/OIP.U9J6fXpzMc-jmkNef-WAKwAAAA?rs=1&pid=ImgDetMain' }} style={styles.icon} />
         <Text style={styles.iconSubtitle}>Touch the Fingerprint Sensor</Text>
       </View>
       <View style={styles.bottomContainer}>

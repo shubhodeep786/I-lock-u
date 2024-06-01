@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, TextInput, Modal, Dimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { UploadDocumentsScreenNavigationProp, ReciveDocumentProps, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
+import { UploadDocumentsScreenNavigationProp, NotificationScreenProps, SelectDocumentsPageNavigationProp, DocumentsScreenNavigationProp, SharedDocumentsScreenNavigationProp, ProfileScreenNavigationProp, HomeScreenNavigationProp } from '../types/navigationTypes';
 
 const HomeIcon = () => (
   <Image

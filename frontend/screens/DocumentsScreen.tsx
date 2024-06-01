@@ -6,31 +6,32 @@ import { useNavigation } from '@react-navigation/native';
 
 const HomeIcon = () => (
   <Image
-    source={{ uri: 'https://static.vecteezy.com/system/resources/previews/000/627/580/original/vector-home-icon-symbol-sign.jpg' }}
-    style={styles.iconImage}
+    source={{ uri: 'https://cdn1.iconfinder.com/data/icons/web-develover-1/32/home-512.png' }}
+    style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const DocumentIcon = () => (
   <Image
     source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2991/2991112.png' }}
-    style={styles.iconImage}
+    style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const UploadIcon = () => (
   <Image
-    source={{ uri: 'https://th.bing.com/th/id/OIP.qM4gofQvkDbbrGeMt1sP-wHaD9?rs=1&pid=ImgDetMain' }}
-    style={styles.iconImage}
+    source={{ uri: 'https://cdn3.iconfinder.com/data/icons/pyconic-icons-1-2/512/cloud-outline-upload-1024.png' }}
+    style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
 
 const ProfileIcon = () => (
   <Image
-    source={{ uri: 'https://th.bing.com/th/id/OIP.NMPXaBadVF3pdRmwJyqmZQHaHa?w=180&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7' }}
-    style={styles.iconImage}
+    source={{ uri: 'https://cdn3.iconfinder.com/data/icons/social-media-2506/32/Profile_Basic_UI_Social_Media-512.png' }}
+    style={{ width: 24, height: 24, tintColor: '#333' }}
   />
 );
+
 
 const documentData = [
   { title: 'Identity Documents', imageUrl: 'https://example.com/identity.png' },
