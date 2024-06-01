@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 const LoginScreen: React.FC = () => {
     const navigation = useNavigation();
 
@@ -10,6 +9,7 @@ const LoginScreen: React.FC = () => {
             <View style={styles.content}>
                 <Text style={styles.title}>UIL</Text>
                 <Text style={styles.headerText}>Share Documents</Text>
+
                 <Text style={styles.descriptionText}>
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                     Lorem Ipsum has been the industry's standard dummy text ever since.
@@ -27,6 +27,8 @@ const LoginScreen: React.FC = () => {
     );
 };
 
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -35,6 +37,15 @@ const styles = StyleSheet.create({
         paddingTop: 40,
         paddingHorizontal: 20,
         backgroundColor: '#fff',
+    },
+    imageContainer: {
+        marginTop: 20,
+        alignItems: 'center',
+    },
+    image: {
+        width: 300,
+        height: 300,
+        resizeMode: 'contain',
     },
     content: {
         alignItems: 'center',
