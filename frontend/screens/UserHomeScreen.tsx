@@ -233,12 +233,16 @@ const UserHomeScreen = () => {
             <TouchableOpacity onPress={handleClose} style={styles.closeButton}>
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
-            <Text style={styles.qrTitle}>Scan the QR Code</Text>
-            <View style={styles.qrBox}></View>
+            <View style={styles.qrBox}>
+              <Image
+                source={{ uri: 'https://static.vecteezy.com/system/resources/previews/002/557/391/original/qr-code-for-scanning-free-vector.jpg' }}
+                style={styles.qrImage}
+              />
+            </View>
+            <Text style={styles.qrTitle}>Scan the QR Code to Receive File</Text>
           </View>
         </View>
       </Modal>
-
       {/* Share Modal */}
       <Modal visible={showShare} animationType="slide" transparent={true} onRequestClose={handleCloseShare}>
         <View style={styles.shareModalContainer}>
@@ -273,6 +277,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  qrImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   searchInput: {
     backgroundColor: '#f2f2f2',
@@ -445,17 +454,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  qrTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   qrBox: {
-    width: 200,
-    height: 200,
-    borderColor: '#0000CD',
-    borderWidth: 2,
-    borderRadius: 10,
+    marginTop: 60,
+    width: 300,
+    height: 300,
   },
   shareModalContainer: {
     flex: 1,
@@ -465,16 +467,14 @@ const styles = StyleSheet.create({
   },
   shareModal: {
     width: '100%',
+    height: '30%',
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
@@ -513,6 +513,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  qrTitle: {
+    bottom: 0,
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: 'center',
   },
 });
 
