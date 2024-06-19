@@ -1,6 +1,11 @@
 {
     "deepscan.enable": true,
     "cSpell.words": [
-        "documenttransactions"
+        "Aadhaar",
+        "DATEONLY",
+        "dids",
+        "documenttransactions",
+        "mysecretpassword",
+        "openapi"
     ]
 }
